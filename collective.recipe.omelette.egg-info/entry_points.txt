@@ -1,0 +1,3 @@
+[zc.buildout]
+default = collective.recipe.omelette:Recipe
+

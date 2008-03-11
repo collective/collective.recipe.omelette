@@ -1,0 +1,17 @@
+README.txt
+setup.cfg
+setup.py
+collective/__init__.py
+collective.recipe.omelette.egg-info/PKG-INFO
+collective.recipe.omelette.egg-info/SOURCES.txt
+collective.recipe.omelette.egg-info/dependency_links.txt
+collective.recipe.omelette.egg-info/entry_points.txt
+collective.recipe.omelette.egg-info/namespace_packages.txt
+collective.recipe.omelette.egg-info/not-zip-safe
+collective.recipe.omelette.egg-info/paster_plugins.txt
+collective.recipe.omelette.egg-info/requires.txt
+collective.recipe.omelette.egg-info/top_level.txt
+collective/recipe/__init__.py
+collective/recipe/omelette/__init__.py
+collective/recipe/omelette/tests/__init__.py
+collective/recipe/omelette/tests/test_docs.py

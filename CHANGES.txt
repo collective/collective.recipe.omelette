@@ -1,0 +1,8 @@
+0.1 (2008-03-10)
+==================
+
+ - Initial basic implementation.
+   [davisagli]
+
+ - Created recipe with ZopeSkel.
+   [davisagli]
