@@ -29,10 +29,11 @@ class Recipe(object):
         self.egg = zc.recipe.egg.Egg(buildout, options['recipe'], options)
         self.buildout, self.name, self.options = buildout, name, options
         
-        options['location'] = os.path.join(
-            buildout['buildout']['parts-directory'],
-            self.name,
-            )
+        if not options.has_key('location'):
+            options['location'] = os.path.join(
+                buildout['buildout']['parts-directory'],
+                self.name,
+                )
 
     def install(self):
         """Crack the eggs open and mix them together"""

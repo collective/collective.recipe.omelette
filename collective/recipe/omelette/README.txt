@@ -45,6 +45,8 @@ The recipe supports the following options:
 eggs
     List of eggs which should be included in the omelette.
 
+location
+    Override the directory in which the omelette is created (default is parts/[name of buildout part])
 
 Example usage
 =============
@@ -102,6 +104,24 @@ If we call the part something else, the omelette should be created there instead
     >>> os.path.exists('parts/frittata')
     True
 
+You can also override the location of the omelette if you want to put it
+somewhere else entirely::
+
+    >>> write('buildout.cfg',
+    ... """
+    ... [buildout]
+    ... eggs = setuptools
+    ... parts = omelette
+    ...
+    ... [omelette]
+    ... recipe = collective.recipe.omelette
+    ... eggs = ${buildout:eggs}
+    ... location = ${buildout:directory}/omelette
+    ... """)
+    >>> print system(buildout)
+    Uninstalling...
+    >>> os.path.exists('omelette')
+    True
 
 Reporting bugs or asking questions
 ==================================

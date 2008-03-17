@@ -1,3 +1,9 @@
+0.3 (TBD)
+=========
+
+ - Added option to override the default omelette location.
+   [davisagli]
+
 0.2 (2008-03-16)
 ================
 

@@ -1,6 +1,6 @@
 Metadata-Version: 1.0
 Name: collective.recipe.omelette
-Version: 0.1dev-r60411
+Version: 0.2dev-r60801
 Summary: Creates a unified directory structure of all namespace packages, symlinking to the actual contents, in order to ease navigation.
 Home-page: UNKNOWN
 Author: David Glick
@@ -11,8 +11,14 @@ Description: Code repository: http://svn.plone.org/svn/collective/buildout/colle
         Change history
         **************
         
+        0.2 (2008-03-16)
+        ================
+        
+        - Fixed so created directories are not normalized to lowercase.
+        [davisagli]
+        
         0.1 (2008-03-10)
-        ==================
+        ================
         
         - Initial basic implementation.
         [davisagli]
@@ -70,6 +76,8 @@ Description: Code repository: http://svn.plone.org/svn/collective/buildout/colle
         eggs
         List of eggs which should be included in the omelette.
         
+        location
+        Override the directory in which the omelette is created (default is parts/[name of buildout part])
         
         Example usage
         =============
@@ -127,6 +135,24 @@ Description: Code repository: http://svn.plone.org/svn/collective/buildout/colle
         >>> os.path.exists('parts/frittata')
         True
         
+        You can also override the location of the omelette if you want to put it
+        somewhere else entirely::
+        
+        >>> write('buildout.cfg',
+        ... """
+        ... [buildout]
+        ... eggs = setuptools
+        ... parts = omelette
+        ...
+        ... [omelette]
+        ... recipe = collective.recipe.omelette
+        ... eggs = ${buildout:eggs}
+        ... location = ${buildout:directory}/omelette
+        ... """)
+        >>> print system(buildout)
+        Uninstalling...
+        >>> os.path.exists('omelette')
+        True
         
         Reporting bugs or asking questions
         ==================================
