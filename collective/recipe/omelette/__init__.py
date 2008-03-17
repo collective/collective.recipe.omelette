@@ -20,8 +20,6 @@ contents of a lists of eggs.  See README.txt for details.
 """
 
 import os, shutil
-
-from zc.buildout import UserError
 import zc.recipe.egg
 
 class Recipe(object):
@@ -40,15 +38,14 @@ class Recipe(object):
         """Crack the eggs open and mix them together"""
         
         location = self.options['location']
-        
         if os.path.exists(location):
             shutil.rmtree(location)
         
         try:
             requirements, ws = self.egg.working_set()
-            for name, dist in ws.by_key.items():
-            
-                parts = name.split('.')
+            for dist in ws.by_key.values():
+                
+                parts = dist.project_name.split('.')
                 namespaces = parts[:-1]
                 package_name = parts[-1]
                 egg_location = os.path.join(dist.location, *parts)
@@ -59,7 +56,8 @@ class Recipe(object):
                 link_location = os.path.join(link_dir, package_name)
                 os.symlink(egg_location, link_location)
         except:
-            shutil.rmtree(location)
+            if os.path.exists(location):
+                shutil.rmtree(location)
             raise
         
         return location

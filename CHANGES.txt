@@ -1,5 +1,11 @@
+0.2 (2008-03-16)
+================
+
+ - Fixed so created directories are not normalized to lowercase.
+   [davisagli]
+
 0.1 (2008-03-10)
-==================
+================
 
  - Initial basic implementation.
    [davisagli]

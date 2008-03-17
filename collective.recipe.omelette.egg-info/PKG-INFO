@@ -1,6 +1,6 @@
 Metadata-Version: 1.0
 Name: collective.recipe.omelette
-Version: 0.1dev
+Version: 0.1dev-r60411
 Summary: Creates a unified directory structure of all namespace packages, symlinking to the actual contents, in order to ease navigation.
 Home-page: UNKNOWN
 Author: David Glick
@@ -11,16 +11,20 @@ Description: Code repository: http://svn.plone.org/svn/collective/buildout/colle
         Change history
         **************
         
-        0.1 (xxxx-xx-xx)
+        0.1 (2008-03-10)
         ==================
         
-        - Created recipe with ZopeSkel [David Glick].
+        - Initial basic implementation.
+        [davisagli]
+        
+        - Created recipe with ZopeSkel.
+        [davisagli]
         
         Detailed Documentation
         **********************
         
         Introduction
-        =================
+        ============
         
         Namespace packages offer the huge benefit of being able to distribute parts of a large
         system in small, self-contained pieces.  However, they can be somewhat clunky to navigate,
@@ -123,10 +127,17 @@ Description: Code repository: http://svn.plone.org/svn/collective/buildout/colle
         >>> os.path.exists('parts/frittata')
         True
         
+        
+        Reporting bugs or asking questions
+        ==================================
+        
+        There is a shared bugtracker and help desk on Launchpad:
+        https://bugs.launchpad.net/collective.buildout/
+        
         Contributors
         ************
         
-        David Glick, Author
+        David Glick [davisagli], Author
         
         
         Download

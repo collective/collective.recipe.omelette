@@ -1,4 +1,8 @@
+CHANGES.txt
+CONTRIBUTORS.txt
 README.txt
+bootstrap.py
+buildout.cfg
 setup.cfg
 setup.py
 collective/__init__.py
@@ -12,6 +16,7 @@ collective.recipe.omelette.egg-info/paster_plugins.txt
 collective.recipe.omelette.egg-info/requires.txt
 collective.recipe.omelette.egg-info/top_level.txt
 collective/recipe/__init__.py
+collective/recipe/omelette/README.txt
 collective/recipe/omelette/__init__.py
 collective/recipe/omelette/tests/__init__.py
 collective/recipe/omelette/tests/test_docs.py
