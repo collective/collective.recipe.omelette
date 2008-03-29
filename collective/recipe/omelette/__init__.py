@@ -19,7 +19,8 @@ This recipe creates an easily navigable directory structure linking to the
 contents of a lists of eggs.  See README.txt for details.
 """
 
-import os, shutil
+import os
+import shutil
 import zc.recipe.egg
 
 class Recipe(object):
@@ -34,6 +35,15 @@ class Recipe(object):
                 buildout['buildout']['parts-directory'],
                 self.name,
                 )
+        ignore_develop = options.get('ignore-develop', '').lower()
+        develop_eggs = []
+        if ignore_develop in ('yes', 'true', 'on', '1', 'sure'):
+            develop_eggs = os.listdir(
+                               buildout['buildout']['develop-eggs-directory'])
+            develop_eggs = [dev_egg.rstrip('.egg-link')
+                            for dev_egg in develop_eggs]
+        ignores = options.get('ignores', '').split()
+        self.ignored_eggs = develop_eggs + ignores
 
     def install(self):
         """Crack the eggs open and mix them together"""
@@ -45,17 +55,18 @@ class Recipe(object):
         try:
             requirements, ws = self.egg.working_set()
             for dist in ws.by_key.values():
-                
-                parts = dist.project_name.split('.')
-                namespaces = parts[:-1]
-                package_name = parts[-1]
-                egg_location = os.path.join(dist.location, *parts)
-            
-                link_dir = os.path.join(location, *namespaces)
-                if not os.path.exists(link_dir):
-                    os.makedirs(link_dir)
-                link_location = os.path.join(link_dir, package_name)
-                os.symlink(egg_location, link_location)
+                project_name =  dist.project_name
+                if  project_name not in self.ignored_eggs:
+                    parts = project_name.split('.')
+                    namespaces = parts[:-1]
+                    package_name = parts[-1]
+                    egg_location = os.path.join(dist.location, *parts)
+                    
+                    link_dir = os.path.join(location, *namespaces)
+                    if not os.path.exists(link_dir):
+                        os.makedirs(link_dir)
+                    link_location = os.path.join(link_dir, package_name)
+                    os.symlink(egg_location, link_location)
         except:
             if os.path.exists(location):
                 shutil.rmtree(location)

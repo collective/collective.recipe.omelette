@@ -48,6 +48,12 @@ eggs
 location
     Override the directory in which the omelette is created (default is parts/[name of buildout part])
 
+ignore-develop
+    Ignore eggs that you are currently developing (listed in ${buildout:develop}). Default is False
+
+ignores
+    List of eggs to ignore when preparing your omelete.
+
 Example usage
 =============
 
