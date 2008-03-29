@@ -1,6 +1,9 @@
 0.3 (TBD)
 =========
 
+ - Fixed test infrastructure.
+   [davisagli]
+
  - Added option to ignore develop eggs
    [claytron]
 
@@ -10,11 +13,13 @@
  - Added option to override the default omelette location.
    [davisagli]
 
+
 0.2 (2008-03-16)
 ================
 
  - Fixed so created directories are not normalized to lowercase.
    [davisagli]
+
 
 0.1 (2008-03-10)
 ================

@@ -17,7 +17,8 @@ optionflags =  (doctest.ELLIPSIS |
 def setUp(test):
     zc.buildout.testing.buildoutSetUp(test)
 
-    # Install the recipe in develop mode
+    # Install the recipe (and dependencies) in develop mode
+    zc.buildout.testing.install_develop('zc.recipe.egg', test)
     zc.buildout.testing.install_develop('collective.recipe.omelette', test)
 
 def test_suite():

@@ -1,6 +1,6 @@
 Metadata-Version: 1.0
 Name: collective.recipe.omelette
-Version: 0.2dev-r60801
+Version: 0.3devdev-r61605
 Summary: Creates a unified directory structure of all namespace packages, symlinking to the actual contents, in order to ease navigation.
 Home-page: UNKNOWN
 Author: David Glick
@@ -10,6 +10,18 @@ Description: Code repository: http://svn.plone.org/svn/collective/buildout/colle
         
         Change history
         **************
+        
+        0.3 (TBD)
+        =========
+        
+        - Added option to ignore develop eggs
+        [claytron]
+        
+        - Added option to ignore eggs
+        [claytron]
+        
+        - Added option to override the default omelette location.
+        [davisagli]
         
         0.2 (2008-03-16)
         ================
@@ -78,6 +90,12 @@ Description: Code repository: http://svn.plone.org/svn/collective/buildout/colle
         
         location
         Override the directory in which the omelette is created (default is parts/[name of buildout part])
+        
+        ignore-develop
+        Ignore eggs that you are currently developing (listed in ${buildout:develop}). Default is False
+        
+        ignores
+        List of eggs to ignore when preparing your omelete.
         
         Example usage
         =============
@@ -164,6 +182,7 @@ Description: Code repository: http://svn.plone.org/svn/collective/buildout/colle
         ************
         
         David Glick [davisagli], Author
+        Clayton Parker [claytron], Code Monkey
         
         
         Download

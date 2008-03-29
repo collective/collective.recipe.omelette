@@ -74,8 +74,6 @@ setuptools egg (for the sake of example, since it has no dependencies)::
 Running the buildout gives us::
 
     >>> print system(buildout)
-    Upgraded:
-    ...
     Installing omelette.
     <BLANKLINE>
 
@@ -103,8 +101,7 @@ If we call the part something else, the omelette should be created there instead
     ... recipe = collective.recipe.omelette
     ... eggs = ${buildout:eggs}
     ... """)
-    >>> print system(buildout)
-    Uninstalling...
+    >>> print system(buildout + ' -q')
     >>> os.path.exists('parts/omelette')
     False
     >>> os.path.exists('parts/frittata')
@@ -124,10 +121,27 @@ somewhere else entirely::
     ... eggs = ${buildout:eggs}
     ... location = ${buildout:directory}/omelette
     ... """)
-    >>> print system(buildout)
-    Uninstalling...
+    >>> print system(buildout + ' -q')
     >>> os.path.exists('omelette')
     True
+
+
+Running the tests
+=================
+
+The subversion checkout of collective.recipe.omelette includes a buildout
+which installs a script for running the tests.
+
+Just run:
+python2.4 bootstrap.py
+bin/buildout
+bin/test
+
+Known issue: The tests run buildout in a separate process, so it's currently
+impossible to put a pdb breakpoint in the recipe and debug during the test.
+If you need to do this, set up another buildout which installs an omelette
+part and includes collective.recipe.omelette as a development egg.
+
 
 Reporting bugs or asking questions
 ==================================
