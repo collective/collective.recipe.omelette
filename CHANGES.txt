@@ -1,6 +1,12 @@
 0.3 (TBD)
 =========
 
+ - Added option to ignore develop eggs
+   [claytron]
+
+ - Added option to ignore eggs
+   [claytron]
+
  - Added option to override the default omelette location.
    [davisagli]
 
