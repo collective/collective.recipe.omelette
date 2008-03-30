@@ -1,6 +1,6 @@
 Metadata-Version: 1.0
 Name: collective.recipe.omelette
-Version: 0.3devdev-r61605
+Version: 0.3devdev-r61661
 Summary: Creates a unified directory structure of all namespace packages, symlinking to the actual contents, in order to ease navigation.
 Home-page: UNKNOWN
 Author: David Glick
@@ -14,6 +14,9 @@ Description: Code repository: http://svn.plone.org/svn/collective/buildout/colle
         0.3 (TBD)
         =========
         
+        - Fixed test infrastructure.
+        [davisagli]
+        
         - Added option to ignore develop eggs
         [claytron]
         
@@ -23,11 +26,13 @@ Description: Code repository: http://svn.plone.org/svn/collective/buildout/colle
         - Added option to override the default omelette location.
         [davisagli]
         
+        
         0.2 (2008-03-16)
         ================
         
         - Fixed so created directories are not normalized to lowercase.
         [davisagli]
+        
         
         0.1 (2008-03-10)
         ================
@@ -117,8 +122,6 @@ Description: Code repository: http://svn.plone.org/svn/collective/buildout/colle
         Running the buildout gives us::
         
         >>> print system(buildout)
-        Upgraded:
-        ...
         Installing omelette.
         <BLANKLINE>
         
@@ -146,8 +149,7 @@ Description: Code repository: http://svn.plone.org/svn/collective/buildout/colle
         ... recipe = collective.recipe.omelette
         ... eggs = ${buildout:eggs}
         ... """)
-        >>> print system(buildout)
-        Uninstalling...
+        >>> print system(buildout + ' -q')
         >>> os.path.exists('parts/omelette')
         False
         >>> os.path.exists('parts/frittata')
@@ -167,10 +169,27 @@ Description: Code repository: http://svn.plone.org/svn/collective/buildout/colle
         ... eggs = ${buildout:eggs}
         ... location = ${buildout:directory}/omelette
         ... """)
-        >>> print system(buildout)
-        Uninstalling...
+        >>> print system(buildout + ' -q')
         >>> os.path.exists('omelette')
         True
+        
+        
+        Running the tests
+        =================
+        
+        The subversion checkout of collective.recipe.omelette includes a buildout
+        which installs a script for running the tests.
+        
+        Just run:
+        python2.4 bootstrap.py
+        bin/buildout
+        bin/test
+        
+        Known issue: The tests run buildout in a separate process, so it's currently
+        impossible to put a pdb breakpoint in the recipe and debug during the test.
+        If you need to do this, set up another buildout which installs an omelette
+        part and includes collective.recipe.omelette as a development egg.
+        
         
         Reporting bugs or asking questions
         ==================================

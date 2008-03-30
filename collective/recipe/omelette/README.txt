@@ -82,6 +82,8 @@ Now we have an easily navigable link::
     >>> import os
     >>> os.path.exists('parts/omelette/setuptools')
     True
+    >>> ls('parts/omelette')
+    d setuptools
 
 And it points to the real location of the egg's contents::
 
@@ -125,6 +127,39 @@ somewhere else entirely::
     >>> os.path.exists('omelette')
     True
 
+You can ignore a particular package:
+
+    >>> write('buildout.cfg',
+    ... """
+    ... [buildout]
+    ... eggs = setuptools
+    ... parts = omelette
+    ...
+    ... [omelette]
+    ... recipe = collective.recipe.omelette
+    ... eggs = ${buildout:eggs}
+    ... ignores = setuptools
+    ... """)
+    >>> print system(buildout + ' -q')
+    >>> os.path.exists('parts/omelette/setuptools')
+    False
+    
+Or ignore all development eggs:
+
+    >>> write('buildout.cfg',
+    ... """
+    ... [buildout]
+    ... eggs = collective.recipe.omelette
+    ... parts = omelette
+    ...
+    ... [omelette]
+    ... recipe = collective.recipe.omelette
+    ... eggs = ${buildout:eggs}
+    ... ignore-develop = true
+    ... """)
+    >>> print system(buildout + ' -q')
+    >>> os.path.exists('parts/omelette/collective/recipe/omelette')
+    False
 
 Running the tests
 =================

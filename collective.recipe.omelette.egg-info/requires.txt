@@ -4,4 +4,3 @@ zc.recipe.egg
 
 [tests]
 zope.testing
-zc.recipe.egg
