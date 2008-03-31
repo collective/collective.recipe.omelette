@@ -127,7 +127,7 @@ somewhere else entirely::
     >>> os.path.exists('omelette')
     True
 
-You can ignore a particular package:
+You can ignore a particular package::
 
     >>> write('buildout.cfg',
     ... """
@@ -144,7 +144,7 @@ You can ignore a particular package:
     >>> os.path.exists('parts/omelette/setuptools')
     False
     
-Or ignore all development eggs:
+Or ignore all development eggs::
 
     >>> write('buildout.cfg',
     ... """
@@ -167,10 +167,10 @@ Running the tests
 The subversion checkout of collective.recipe.omelette includes a buildout
 which installs a script for running the tests.
 
-Just run:
-python2.4 bootstrap.py
-bin/buildout
-bin/test
+Just run::
+    python2.4 bootstrap.py
+    bin/buildout
+    bin/test
 
 Known issue: The tests run buildout in a separate process, so it's currently
 impossible to put a pdb breakpoint in the recipe and debug during the test.
