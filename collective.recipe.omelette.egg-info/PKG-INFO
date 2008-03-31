@@ -1,6 +1,6 @@
 Metadata-Version: 1.0
 Name: collective.recipe.omelette
-Version: 0.3devdev-r61661
+Version: 0.3
 Summary: Creates a unified directory structure of all namespace packages, symlinking to the actual contents, in order to ease navigation.
 Home-page: UNKNOWN
 Author: David Glick
@@ -11,8 +11,8 @@ Description: Code repository: http://svn.plone.org/svn/collective/buildout/colle
         Change history
         **************
         
-        0.3 (TBD)
-        =========
+        0.3 (2008-03-30)
+        ================
         
         - Fixed test infrastructure.
         [davisagli]
@@ -130,6 +130,8 @@ Description: Code repository: http://svn.plone.org/svn/collective/buildout/colle
         >>> import os
         >>> os.path.exists('parts/omelette/setuptools')
         True
+        >>> ls('parts/omelette')
+        d setuptools
         
         And it points to the real location of the egg's contents::
         
@@ -173,6 +175,39 @@ Description: Code repository: http://svn.plone.org/svn/collective/buildout/colle
         >>> os.path.exists('omelette')
         True
         
+        You can ignore a particular package:
+        
+        >>> write('buildout.cfg',
+        ... """
+        ... [buildout]
+        ... eggs = setuptools
+        ... parts = omelette
+        ...
+        ... [omelette]
+        ... recipe = collective.recipe.omelette
+        ... eggs = ${buildout:eggs}
+        ... ignores = setuptools
+        ... """)
+        >>> print system(buildout + ' -q')
+        >>> os.path.exists('parts/omelette/setuptools')
+        False
+        
+        Or ignore all development eggs:
+        
+        >>> write('buildout.cfg',
+        ... """
+        ... [buildout]
+        ... eggs = collective.recipe.omelette
+        ... parts = omelette
+        ...
+        ... [omelette]
+        ... recipe = collective.recipe.omelette
+        ... eggs = ${buildout:eggs}
+        ... ignore-develop = true
+        ... """)
+        >>> print system(buildout + ' -q')
+        >>> os.path.exists('parts/omelette/collective/recipe/omelette')
+        False
         
         Running the tests
         =================
@@ -202,7 +237,6 @@ Description: Code repository: http://svn.plone.org/svn/collective/buildout/colle
         
         David Glick [davisagli], Author
         Clayton Parker [claytron], Code Monkey
-        
         
         Download
         ********
