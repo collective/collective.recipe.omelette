@@ -1,1 +1,2 @@
-[ ] - optionally include old-style products, zope lib/python in the omelette
+[ ] - optionally include zope lib/python in the omelette
+[ ] - add better output in verbose mode

@@ -46,13 +46,18 @@ eggs
     List of eggs which should be included in the omelette.
 
 location
-    Override the directory in which the omelette is created (default is parts/[name of buildout part])
+    (optional) Override the directory in which the omelette is created (default is parts/[name of buildout part])
 
 ignore-develop
-    Ignore eggs that you are currently developing (listed in ${buildout:develop}). Default is False
+    (optional) Ignore eggs that you are currently developing (listed in ${buildout:develop}). Default is False
 
 ignores
-    List of eggs to ignore when preparing your omelete.
+    (optional) List of eggs to ignore when preparing your omelette.
+    
+products
+    (optional) List of old Zope 2-style products directories whose contents should be included in the omelette,
+    in a directory called Products.
+    
 
 Example usage
 =============
@@ -89,6 +94,40 @@ And it points to the real location of the egg's contents::
 
     >>> os.readlink('parts/omelette/setuptools')
     '/sample-buildout/eggs/setuptools-....egg/setuptools'
+    
+You can also include old-style Products directories in the omelette (for Zope developers)::
+
+    >>> write('buildout.cfg',
+    ... """
+    ... [buildout]
+    ... parts =
+    ...     productdistros
+    ...     omelette
+    ... 
+    ... [productdistros]
+    ... recipe = plone.recipe.distros
+    ... urls = http://plone.org/products/pressroom/releases/3.1/pressroom-3-1.tgz
+    ...
+    ... [omelette]
+    ... recipe = collective.recipe.omelette
+    ... products =
+    ...     ${productdistros:location}
+    ...     ${buildout:directory}/duplicate-product-test
+    ... """)
+    >>> mkdir('duplicate-product-test')
+    >>> mkdir('duplicate-product-test/PressRoom')
+    >>> print system(buildout + ' -q')
+
+Any subdirectories of the products directories will be added to the omelette::
+
+    >>> ls('parts/omelette/Products')
+    d PressRoom
+    
+If a subdirectory of the same name appears in two different product directories,
+the first one encountered will take precedence::
+
+    >>> os.readlink('parts/omelette/Products/PressRoom')
+    '/sample-buildout/parts/productdistros/PressRoom'
 
 If we call the part something else, the omelette should be created there instead
 (and the old one removed)::
@@ -158,8 +197,9 @@ Or ignore all development eggs::
     ... ignore-develop = true
     ... """)
     >>> print system(buildout + ' -q')
-    >>> os.path.exists('parts/omelette/collective/recipe/omelette')
-    False
+    >>> ls('parts/omelette')
+    d setuptools
+    d zc
 
 Running the tests
 =================

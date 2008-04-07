@@ -40,10 +40,10 @@ class Recipe(object):
         if ignore_develop in ('yes', 'true', 'on', '1', 'sure'):
             develop_eggs = os.listdir(
                                buildout['buildout']['develop-eggs-directory'])
-            develop_eggs = [dev_egg.rstrip('.egg-link')
-                            for dev_egg in develop_eggs]
+            develop_eggs = [dev_egg[:-9] for dev_egg in develop_eggs]
         ignores = options.get('ignores', '').split()
         self.ignored_eggs = develop_eggs + ignores
+        self.product_dirs = options.get('products', '').split()
 
     def install(self):
         """Crack the eggs open and mix them together"""
@@ -67,6 +67,18 @@ class Recipe(object):
                         os.makedirs(link_dir)
                     link_location = os.path.join(link_dir, package_name)
                     os.symlink(egg_location, link_location)
+                    
+            for product_dir in self.product_dirs:
+                if os.path.exists(product_dir):
+                    link_dir = os.path.join(location, 'Products')
+                    if not os.path.exists(link_dir):
+                        os.makedirs(link_dir)
+                    for product_name in os.listdir(product_dir):
+                        link_location = os.path.join(link_dir, product_name)
+                        product_location = os.path.join(product_dir, product_name)
+                        if not os.path.exists(link_location):
+                            os.symlink(product_location, link_location)
+                            
         except:
             if os.path.exists(location):
                 shutil.rmtree(location)
