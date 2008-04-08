@@ -208,6 +208,7 @@ The subversion checkout of collective.recipe.omelette includes a buildout
 which installs a script for running the tests.
 
 Just run::
+
     python2.4 bootstrap.py
     bin/buildout
     bin/test
