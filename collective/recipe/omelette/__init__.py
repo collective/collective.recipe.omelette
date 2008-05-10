@@ -29,7 +29,7 @@ class Recipe(object):
     def __init__(self, buildout, name, options):
         self.egg = zc.recipe.egg.Egg(buildout, options['recipe'], options)
         self.buildout, self.name, self.options = buildout, name, options
-        
+                
         if not options.has_key('location'):
             options['location'] = os.path.join(
                 buildout['buildout']['parts-directory'],
@@ -43,7 +43,9 @@ class Recipe(object):
             develop_eggs = [dev_egg[:-9] for dev_egg in develop_eggs]
         ignores = options.get('ignores', '').split()
         self.ignored_eggs = develop_eggs + ignores
-        self.product_dirs = options.get('products', '').split()
+        self.products = [l.split()
+                         for l in options['products'].splitlines()
+                         if l.strip()]
 
     def install(self):
         """Crack the eggs open and mix them together"""
@@ -66,18 +68,26 @@ class Recipe(object):
                     if not os.path.exists(link_dir):
                         os.makedirs(link_dir)
                     link_location = os.path.join(link_dir, package_name)
-                    os.symlink(egg_location, link_location)
+                    if not os.path.exists(egg_location):
+                        print "[collective.recipe.omelette] Warning: (While processing egg %s) Egg contents not found at %s.  Skipping." % (project_name, egg_location)
+                        continue
+                    if not os.path.exists(link_location):
+                        os.symlink(egg_location, link_location)
+                    else:
+                        print "[collective.recipe.omelette] Warning: (While processing egg %s) Link already exists.  Skipping." % project_name
                     
-            for product_dir in self.product_dirs:
-                if os.path.exists(product_dir):
-                    link_dir = os.path.join(location, 'Products')
-                    if not os.path.exists(link_dir):
-                        os.makedirs(link_dir)
-                    for product_name in os.listdir(product_dir):
-                        link_location = os.path.join(link_dir, product_name)
-                        product_location = os.path.join(product_dir, product_name)
-                        if not os.path.exists(link_location):
-                            os.symlink(product_location, link_location)
+            for product in self.products:
+                if len(product) == 1:
+                    link_name = 'Products/'
+                    product_dir = product[0]
+                elif len(product) == 2:
+                    link_name = product[1]
+                    product_dir = product[0]
+                else:
+                    print "[collective.recipe.omelette] Warning: Invalid value in ${%s:products}: %s" % (self.name, product)
+                
+                link_dir = os.path.join(location, link_name)
+                self._add_bacon(product_dir, link_dir)
                             
         except:
             if os.path.exists(location):
@@ -85,6 +95,28 @@ class Recipe(object):
             raise
         
         return location
-
+        
+    def _add_bacon(self, product_dir, target_dir):
+        """ Link products from product_dir into target_dir.  Recurse a level if target_dir/(product)
+            already exists.
+        """
+        if os.path.exists(product_dir):
+            if not os.path.exists(target_dir):
+                os.makedirs(target_dir)
+            for product_name in [p for p in os.listdir(product_dir) if not p.startswith('.')]:
+                product_location = os.path.join(product_dir, product_name)
+                if not os.path.isdir(product_location):
+                    # skip ordinary files
+                    continue
+                link_location = os.path.join(target_dir, product_name)
+                if os.path.islink(link_location):
+                    print "[collective.recipe.omelette] Warning: (While processing product %s) Link already exists.  Skipping." % product_location
+                elif os.path.isdir(link_location):
+                    self._add_bacon(product_location, link_location)
+                else:
+                    os.symlink(product_location, link_location)
+        else:
+            print "[collective.recipe.omelette] Warning: Product directory %s not found." % product_dir
+        
     def update(self):
         pass

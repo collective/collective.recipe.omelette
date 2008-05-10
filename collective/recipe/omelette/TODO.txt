@@ -1,2 +1,4 @@
-[ ] - optionally include zope lib/python in the omelette
+[ ] - document using with eggtractor
+[ ] - test and document new-improved products setting
 [ ] - add better output in verbose mode
+[ ] - do something smart with packed eggs?

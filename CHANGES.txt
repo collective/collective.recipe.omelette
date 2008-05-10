@@ -1,3 +1,14 @@
+0.5 (TBD)
+=========
+
+ - Ignore zipped eggs and fakezope2eggs-created links.
+   [davisagli]
+
+ - Allow specifying where non-egg package directories (e.g. Products or Zope 2's lib/python) will get merged.
+   (Note -- the 'products' setting must now be newline-delimited, not just whitespace-delimited.)
+   [davisagli]
+   
+
 0.4 (2008-04-07)
 ================
 
