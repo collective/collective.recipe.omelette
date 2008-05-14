@@ -64,6 +64,20 @@ else:
     islink = os.path.islink
     rmtree = shutil.rmtree
 
+def makedirs(target):
+    drive, path = os.path.splitdrive(target)
+    parts = path.split(os.path.sep)
+    current = drive + os.path.sep    
+    for part in parts:
+        current = os.path.join(current, part)
+        if not os.path.exists(current):
+            os.mkdir(current)
+            init_filename = os.path.join(current, '__init__.py')
+            if not os.path.exists(init_filename):
+                init_file = open(init_filename, 'w')
+                init_file.write("# mushroom")
+                init_file.close()
+
 class Recipe(object):
     """zc.buildout recipe"""
 
@@ -107,7 +121,7 @@ class Recipe(object):
                     
                     link_dir = os.path.join(location, *namespaces)
                     if not os.path.exists(link_dir):
-                        os.makedirs(link_dir)
+                        makedirs(link_dir)
                     link_location = os.path.join(link_dir, package_name)
                     if not os.path.exists(egg_location):
                         print "[collective.recipe.omelette] Warning: (While processing egg %s) Egg contents not found at %s.  Skipping." % (project_name, egg_location)
@@ -143,7 +157,7 @@ class Recipe(object):
         """
         if os.path.exists(product_dir):
             if not os.path.exists(target_dir):
-                os.makedirs(target_dir)
+                makedirs(target_dir)
             for product_name in [p for p in os.listdir(product_dir) if not p.startswith('.')]:
                 product_location = os.path.join(product_dir, product_name)
                 if not os.path.isdir(product_location):
