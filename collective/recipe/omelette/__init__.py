@@ -20,8 +20,49 @@ contents of a lists of eggs.  See README.txt for details.
 """
 
 import os
+import sys
 import shutil
 import zc.recipe.egg
+
+WIN32 = False
+if sys.platform[:3].lower() == "win":
+    WIN32 = True
+
+if WIN32:
+    
+    # We assume this is in the system PATH. The commands will fail if it's not.
+    JUNCTION = "junction.exe" 
+    
+    def symlink(src, dest):
+        cmd = "%s %s %s" % (JUNCTION, os.path.abspath(dest), os.path.abspath(src),)
+        os.system(cmd)
+
+    def unlink(dest):
+        cmd = "%s -d %s" % (JUNCTION, os.path.abspath(dest),)
+        os.system(cmd)
+
+    def islink(dest):
+        cmd = "%s %s" % (JUNCTION, os.path.abspath(dest),)
+        stdout = os.popen(cmd)
+        output = stdout.read()
+        stdout.close()
+        return "Substitute Name:" in output
+        
+        
+    def rmtree(location):
+        # Explicitly unlink all junction'd links
+        for root, dirs, files in os.walk(location, topdown=False):
+            for dir in dirs:
+                path = os.path.join(root, dir)
+                if islink(path):
+                    unlink(root)
+        # Then get rid of everything else
+        shutil.rmtree(location)
+        
+else:
+    symlink = os.path.symlink
+    islink = os.path.islink
+    rmtree = shutil.rmtree
 
 class Recipe(object):
     """zc.buildout recipe"""
@@ -52,7 +93,7 @@ class Recipe(object):
         
         location = self.options['location']
         if os.path.exists(location):
-            shutil.rmtree(location)
+            rmtree(location)
         
         try:
             requirements, ws = self.egg.working_set()
@@ -72,7 +113,7 @@ class Recipe(object):
                         print "[collective.recipe.omelette] Warning: (While processing egg %s) Egg contents not found at %s.  Skipping." % (project_name, egg_location)
                         continue
                     if not os.path.exists(link_location):
-                        os.symlink(egg_location, link_location)
+                        symlink(egg_location, link_location)
                     else:
                         print "[collective.recipe.omelette] Warning: (While processing egg %s) Link already exists.  Skipping." % project_name
                     
@@ -91,7 +132,7 @@ class Recipe(object):
                             
         except:
             if os.path.exists(location):
-                shutil.rmtree(location)
+                rmtree(location)
             raise
         
         return location
@@ -109,12 +150,12 @@ class Recipe(object):
                     # skip ordinary files
                     continue
                 link_location = os.path.join(target_dir, product_name)
-                if os.path.islink(link_location):
+                if islink(link_location):
                     print "[collective.recipe.omelette] Warning: (While processing product %s) Link already exists.  Skipping." % product_location
                 elif os.path.isdir(link_location):
                     self._add_bacon(product_location, link_location)
                 else:
-                    os.symlink(product_location, link_location)
+                    symlink(product_location, link_location)
         else:
             print "[collective.recipe.omelette] Warning: Product directory %s not found." % product_dir
         
