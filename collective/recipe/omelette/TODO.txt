@@ -2,3 +2,7 @@
 [ ] - test and document new-improved products setting
 [ ] - add better output in verbose mode
 [ ] - do something smart with packed eggs?
+[ ] - write test demonstrating that egg contents don't get clobbered on reinstall/uninstall
+[ ] - remove update method?
+[ ] - test addition of blank __init__.py to egg dirs
+[ ] - write howto for plone.org

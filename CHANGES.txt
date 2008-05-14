@@ -1,6 +1,9 @@
 0.5 (TBD)
 =========
 
+ - Support Windows using junction.exe (see http://www.microsoft.com/technet/sysinternals/FileAndDisk/Junction.mspx)
+   [optilude]
+
  - Ignore zipped eggs and fakezope2eggs-created links.
    [davisagli]
 
