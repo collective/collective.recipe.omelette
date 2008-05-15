@@ -79,6 +79,8 @@ setuptools egg (for the sake of example, since it has no dependencies)::
 Running the buildout gives us::
 
     >>> print system(buildout)
+    Upgraded:
+    ...
     Installing omelette.
     <BLANKLINE>
 
@@ -88,6 +90,7 @@ Now we have an easily navigable link::
     >>> os.path.exists('parts/omelette/setuptools')
     True
     >>> ls('parts/omelette')
+    - __init__.py
     d setuptools
 
 And it points to the real location of the egg's contents::

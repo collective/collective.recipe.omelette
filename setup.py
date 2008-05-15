@@ -34,7 +34,7 @@ long_description = (
 entry_point = 'collective.recipe.omelette:Recipe'
 entry_points = {"zc.buildout": ["default = %s" % entry_point]}
 
-tests_require=['zope.testing']
+tests_require=['zope.testing', 'plone.recipe.distros']
 
 setup(name='collective.recipe.omelette',
       version=version,

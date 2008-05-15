@@ -60,7 +60,7 @@ if WIN32:
         shutil.rmtree(location)
         
 else:
-    symlink = os.path.symlink
+    symlink = os.symlink
     islink = os.path.islink
     rmtree = shutil.rmtree
 
@@ -99,7 +99,7 @@ class Recipe(object):
         ignores = options.get('ignores', '').split()
         self.ignored_eggs = develop_eggs + ignores
         self.products = [l.split()
-                         for l in options['products'].splitlines()
+                         for l in options.get('products', '').splitlines()
                          if l.strip()]
 
     def install(self):
