@@ -49,15 +49,16 @@ if WIN32:
         return "Substitute Name:" in output
         
         
-    def rmtree(location):
+    def rmtree(location, nonlinks=True):
         # Explicitly unlink all junction'd links
         for root, dirs, files in os.walk(location, topdown=False):
             for dir in dirs:
                 path = os.path.join(root, dir)
                 if islink(path):
-                    unlink(root)
+                    unlink(path)
         # Then get rid of everything else
-        shutil.rmtree(location)
+        if nonlinks:
+            shutil.rmtree(location)
         
 else:
     symlink = os.symlink
@@ -175,3 +176,8 @@ class Recipe(object):
         
     def update(self):
         pass
+    
+def uninstall(name, options):
+    location = options.get('location')
+    if os.path.exists(location):
+        rmtree(location, nonlinks=False)

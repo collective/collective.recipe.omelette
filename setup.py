@@ -32,7 +32,10 @@ long_description = (
     '********\n'
     )
 entry_point = 'collective.recipe.omelette:Recipe'
-entry_points = {"zc.buildout": ["default = %s" % entry_point]}
+uninstall_entry_point = 'collective.recipe.omelette:uninstall'
+
+entry_points = {"zc.buildout": ["default = %s" % entry_point],
+                "zc.buildout.uninstall": ["default = %s" % uninstall_entry_point]}
 
 tests_require=['zope.testing', 'plone.recipe.distros']
 
