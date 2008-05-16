@@ -32,11 +32,33 @@ symlinks to the egg contents.  So, instead of this...::
                     (contents of second egg)
 
 
-**Caveat 1**: Don't try to manually add any eggs to the omelette!
+You can also include non-eggified python packages in the omelette.  This makes it simple to
+get a single path that you can add to your PYTHONPATH for use with specialized python environments
+like when running under mod_wsgi or PyDev.
 
-**Caveat 2**: This only works with filesystems that support symlinks (so no go on Windows).
 
+Typical usage with Zope and Plone
+=================================
 
+For a typical Plone buildout, with a part named "instance" that uses the plone.recipe.zope2instance recipe and a
+part named "zope2" that uses the plone.recipe.zope2install recipe, the following additions to buildout.cfg will
+result in an omelette including all eggs and old-style Products used by the Zope instance as well as all of the
+packages from Zope's lib/python. It is important that omelette come last if you want it to find everything::
+
+    [buildout]
+    parts =
+        ...(other parts)...
+        omelette
+        
+    ...
+        
+    [omelette]
+    recipe = collective.recipe.omelette
+    eggs = ${instance:eggs}
+    products = ${instance:products}
+    modules = ${zope2:location}/lib/python ./
+    
+    
 Supported options
 =================
 
@@ -53,14 +75,41 @@ ignore-develop
 
 ignores
     (optional) List of eggs to ignore when preparing your omelette.
-    
+
+packages
+    List of Python packages whose contents should be included in the omelette.  Each line should be in the format
+    [package_location] [target_directory], where package_location is the real location of the package, and
+    target_directory is the (relative) location where the package should be inserted into the omelette (defaults
+    to top level).
+
 products
     (optional) List of old Zope 2-style products directories whose contents should be included in the omelette,
-    in a directory called Products.
-    
+    one per line.  (For backwards-compatibility -- equivalent to using packages with Products as the target
+    directory.)
 
-Example usage
-=============
+
+Windows support
+===============
+
+Using omelette on Windows requires the junction_ utility to make links.  Junction.exe must be present in
+your PATH when you run omelette.
+
+.. _junction: http://www.microsoft.com/technet/sysinternals/fileanddisk/junction.mspx
+
+
+Using omelette with eggtractor
+==============================
+
+Mustapha Benali's buildout.eggtractor_ provides a handy way for buildout to automatically find
+development eggs without having to edit buildout.cfg.  However, if you use it, the omelette recipe
+won't be aware of your eggs unless you a) manually add them to the omelette part's eggs option, or
+b) add the name of the omelette part to the builout part's tractor-target-parts option.
+
+.. _buildout.eggtractor: http://pypi.python.org/pypi/buildout.eggtractor/
+
+
+Full test suite
+===============
 
 Usage is pretty basic.  The following installs a buildout and omelette featuring the
 setuptools egg (for the sake of example, since it has no dependencies)::
@@ -97,6 +146,8 @@ And it points to the real location of the egg's contents::
 
     >>> os.readlink('parts/omelette/setuptools')
     '/sample-buildout/eggs/setuptools-....egg/setuptools'
+    
+You can include any Python module in the omelette
     
 You can also include old-style Products directories in the omelette (for Zope developers)::
 
@@ -204,17 +255,13 @@ Or ignore all development eggs::
     d setuptools
     d zc
 
+
 Running the tests
 =================
 
-The subversion checkout of collective.recipe.omelette includes a buildout
-which installs a script for running the tests.
+Just grab the recipe from svn and run::
 
-Just run::
-
-    python2.4 bootstrap.py
-    bin/buildout
-    bin/test
+    python2.4 setup.py test
 
 Known issue: The tests run buildout in a separate process, so it's currently
 impossible to put a pdb breakpoint in the recipe and debug during the test.

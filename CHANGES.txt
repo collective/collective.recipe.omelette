@@ -1,16 +1,20 @@
 0.5 (TBD)
 =========
 
+ - Added uninstall entry point so that the omelette can be uninstalled on Windows without
+   clobbering things outside the omelette path.
+   [optilude]
+
  - Support Windows using junction.exe (see http://www.microsoft.com/technet/sysinternals/FileAndDisk/Junction.mspx)
    [optilude]
 
  - Ignore zipped eggs and fakezope2eggs-created links.
    [davisagli]
 
- - Allow specifying where non-egg package directories (e.g. Products or Zope 2's lib/python) will get merged.
-   (Note -- the 'products' setting must now be newline-delimited, not just whitespace-delimited.)
+ - Allow merging non-eggified Python modules to any directory in the omelette (so that, for instance,
+   the contents of Zope's lib/python can be merged flexibly).
    [davisagli]
-   
+
 
 0.4 (2008-04-07)
 ================
