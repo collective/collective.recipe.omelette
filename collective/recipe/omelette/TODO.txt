@@ -1,14 +1,9 @@
 for 0.5:
-[ ] - document using with eggtractor
-[ ] - test and document modules setting
-[ ] - do something smart with zipped eggs
-[ ] - write test demonstrating that egg contents don't get clobbered on reinstall/uninstall
-[ ] - fix updates
-[ ] - add better output in verbose mode
-[X] - test addition of blank __init__.py to egg dirs
+[ ] - run tests on Windows
 
 sometime soon:
 [ ] - write howto for plone.org
 
 for 0.6:
+[ ] - do something smart with zipped eggs
 [ ] - get egg inner path properly rather than guessing based on egg name

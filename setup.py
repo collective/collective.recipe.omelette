@@ -37,7 +37,7 @@ uninstall_entry_point = 'collective.recipe.omelette:uninstall'
 entry_points = {"zc.buildout": ["default = %s" % entry_point],
                 "zc.buildout.uninstall": ["default = %s" % uninstall_entry_point]}
 
-tests_require=['zope.testing', 'plone.recipe.distros']
+tests_require=['zope.testing']
 
 setup(name='collective.recipe.omelette',
       version=version,
