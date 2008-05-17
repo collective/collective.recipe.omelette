@@ -5,6 +5,7 @@ Doctest runner for 'collective.recipe.omelette'.
 __docformat__ = 'restructuredtext'
 
 import os
+import re
 import unittest
 import shutil
 import zc.buildout.tests
@@ -50,6 +51,9 @@ def test_suite():
                         # second item, e.g.
                         # (re.compile('my-[rR]eg[eE]ps'), 'my-regexps')
                         zc.buildout.testing.normalize_path,
+                        
+                        # don't count subversion dirs in ls() output
+                        (re.compile(r'^\s*?d\s+.svn\s*?^', re.MULTILINE | re.DOTALL), ''),
                         ]),
                 ),
             ))
