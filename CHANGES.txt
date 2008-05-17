@@ -5,14 +5,14 @@
    clobbering things outside the omelette path.
    [optilude]
 
- - Support Windows using junction.exe (see http://www.microsoft.com/technet/sysinternals/FileAndDisk/Junction.mspx)
+ - Support Windows using NTFS junctions (see http://www.microsoft.com/technet/sysinternals/FileAndDisk/Junction.mspx)
    [optilude]
 
  - Ignore zipped eggs and fakezope2eggs-created links.
    [davisagli]
 
- - Allow merging non-eggified Python modules to any directory in the omelette (so that, for instance,
-   the contents of Zope's lib/python can be merged flexibly).
+ - Added 'packages' option to allow merging non-eggified Python packages to any directory in the omelette
+   (so that, for instance, the contents of Zope's lib/python can be merged flexibly).
    [davisagli]
 
 
