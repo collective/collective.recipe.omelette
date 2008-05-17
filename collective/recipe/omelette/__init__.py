@@ -67,11 +67,16 @@ else:
     rmtree = shutil.rmtree
 
 def makedirs(target):
+    """ Similar to os.makedirs, but adds __init__.py files as it goes.  Returns a boolean
+        indicating success.
+    """
     drive, path = os.path.splitdrive(target)
     parts = path.split(os.path.sep)
     current = drive + os.path.sep    
     for part in parts:
         current = os.path.join(current, part)
+        if islink(current):
+            return False
         if not os.path.exists(current):
             os.mkdir(current)
             init_filename = os.path.join(current, '__init__.py')
@@ -79,7 +84,8 @@ def makedirs(target):
                 init_file = open(init_filename, 'w')
                 init_file.write("# mushroom")
                 init_file.close()
-
+    return True
+    
 class Recipe(object):
     """zc.buildout recipe"""
 
@@ -128,7 +134,9 @@ class Recipe(object):
                     
                     link_dir = os.path.join(location, *namespaces)
                     if not os.path.exists(link_dir):
-                        makedirs(link_dir)
+                        if not makedirs(link_dir):
+                            self.logger.warn("Warning: (While processing egg %s) Could not create containing directory.  Skipping." % (project_name))
+                            continue
                     link_location = os.path.join(link_dir, package_name)
                     if not os.path.exists(egg_location):
                         self.logger.warn("Warning: (While processing egg %s) Egg contents not found at %s.  Skipping." % (project_name, egg_location))
@@ -165,8 +173,13 @@ class Recipe(object):
             already exists.
         """
         if os.path.exists(package_dir):
-            if not os.path.exists(target_dir):
-                makedirs(target_dir)
+            if islink(target_dir):
+                self.logger.warn("Warning: (While processing package directory %s) Link already exists at %s.  Skipping." % (package_dir, target_dir))
+                return            
+            elif not os.path.exists(target_dir):
+                if not makedirs(target_dir):
+                    self.logger.warn("Warning: (While processing package directory %s) Link already exists at %s.  Skipping." % (package_dir, target_dir))
+                    return            
             for package_name in [p for p in os.listdir(package_dir) if not p.startswith('.')]:
                 package_location = os.path.join(package_dir, package_name)
                 if not os.path.isdir(package_location):
@@ -180,7 +193,7 @@ class Recipe(object):
                 else:
                     symlink(package_location, link_location)
         else:
-            print "Warning: Product directory %s not found." % package_dir
+            print "Warning: Product directory %s not found.  Skipping." % package_dir
         
 def uninstall(name, options):
     location = options.get('location')

@@ -109,12 +109,12 @@ and skip it, rather than creating a symlink in the non-omelette location!::
     ...     %(test_dir)s/Products Products
     ... """ % globals())
     >>> print system(buildout + ' -q')
+    omelette: Warning: (While processing package directory ...Products) Link already exists at ...Products.  Skipping.
     <BLANKLINE>
-    >>> ls('parts/omelette/Products')
+    >>> ls('%(test_dir)s/package/Products' % globals())
     d Product1
     d Product2
     - __init__.py
-
 
 You can also override the location of the omelette if you want to put it
 somewhere else entirely::
