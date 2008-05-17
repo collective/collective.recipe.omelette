@@ -93,6 +93,28 @@ stuff accidentally::
     >>> ls('parts/frittata/omelettetests/egg1')
     - __init__.py
     - in_egg1.txt
+    
+If trying to create a package that has already been symlinked to elsewhere, we should give a warning
+and skip it, rather than creating a symlink in the non-omelette location!::
+
+    >>> write('buildout.cfg',
+    ... """
+    ... [buildout]
+    ... parts = omelette
+    ...
+    ... [omelette]
+    ... recipe = collective.recipe.omelette
+    ... packages =
+    ...     %(test_dir)s/package .
+    ...     %(test_dir)s/Products Products
+    ... """ % globals())
+    >>> print system(buildout + ' -q')
+    <BLANKLINE>
+    >>> ls('parts/omelette/Products')
+    d Product1
+    d Product2
+    - __init__.py
+
 
 You can also override the location of the omelette if you want to put it
 somewhere else entirely::
