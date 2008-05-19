@@ -31,22 +31,26 @@ if sys.platform[:3].lower() == "win":
 
 if WIN32:
     
+    def _run(cmd):
+        stdout = os.popen(cmd)
+        output = stdout.read()
+        stdout.close()
+        return output
+    
     # We assume this is in the system PATH. The commands will fail if it's not.
     JUNCTION = "junction.exe" 
     
     def symlink(src, dest):
         cmd = "%s %s %s" % (JUNCTION, os.path.abspath(dest), os.path.abspath(src),)
-        os.system(cmd)
+        _run(cmd)
 
     def unlink(dest):
         cmd = "%s -d %s" % (JUNCTION, os.path.abspath(dest),)
-        os.system(cmd)
+        _run(cmd)
 
     def islink(dest):
         cmd = "%s %s" % (JUNCTION, os.path.abspath(dest),)
-        stdout = os.popen(cmd)
-        output = stdout.read()
-        stdout.close()
+        output = _run(cmd)
         return "Substitute Name:" in output
         
         
