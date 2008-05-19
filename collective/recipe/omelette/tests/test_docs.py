@@ -12,13 +12,13 @@ import zc.buildout.tests
 import zc.buildout.testing
 
 from zope.testing import doctest, renormalizing
+from collective.recipe.omelette.utils import rmtree
 
 optionflags =  (doctest.ELLIPSIS |
                 doctest.NORMALIZE_WHITESPACE |
                 doctest.REPORT_ONLY_FIRST_FAILURE)
 
 test_dir = os.path.abspath(os.path.dirname(__file__))
-test_path = 'collective/recipe/omelette/tests/'
 
 def setUp(test):
     zc.buildout.testing.buildoutSetUp(test)
@@ -31,9 +31,9 @@ def tearDown(test):
     zc.buildout.testing.buildoutTearDown(test)
     
     # get rid of the extra product directory that may have been created
-    product_dir = test_dir + '/Products/Product3'
+    product_dir = os.path.join(test_dir, 'Products', 'Product3')
     if os.path.exists(product_dir):
-        shutil.rmtree(product_dir)
+        rmtree(product_dir)
 
 def test_suite():
     suite = unittest.TestSuite((

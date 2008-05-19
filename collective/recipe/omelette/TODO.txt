@@ -6,4 +6,4 @@ sometime soon:
 
 for 0.6:
 [ ] - do something smart with zipped eggs
-[ ] - get egg inner path properly rather than guessing based on egg name
+[ ] - get egg source path properly rather than guessing based on egg name
