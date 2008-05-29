@@ -12,8 +12,15 @@ if WIN32:
         stdout.close()
         return output
     
-    # We assume this is in the system PATH. The commands will fail if it's not.
+    # find the junction utility; warn if missing
     JUNCTION = "junction.exe"
+    found = False
+    for path in os.environ['PATH'].split(';'):
+        if os.path.exists(os.path.join(path, JUNCTION)):
+            found = True
+            break
+    if not found:
+        raise EnvironmentError(None, 'Junction.exe not found in path.  Collective.recipe.omelette cannot continue.')
     
     def symlink(src, dest):
         cmd = "%s %s %s" % (JUNCTION, os.path.abspath(dest), os.path.abspath(src),)

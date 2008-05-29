@@ -28,7 +28,7 @@ def setUp(test):
     zc.buildout.testing.install_develop('collective.recipe.omelette', test)
 
 def tearDown(test):
-    # safely remove junctions (on Windows) before the test teardown clobbers them with an rmtree
+    # safely remove junctions (on Windows) before the test teardown clobbers them with a shutil.rmtree
     rmtree(os.getcwd(), False)
     
     zc.buildout.testing.buildoutTearDown(test)
