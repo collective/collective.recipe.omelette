@@ -13,7 +13,7 @@ if WIN32:
         return output
     
     # We assume this is in the system PATH. The commands will fail if it's not.
-    JUNCTION = "junction.exe" 
+    JUNCTION = "junction.exe"
     
     def symlink(src, dest):
         cmd = "%s %s %s" % (JUNCTION, os.path.abspath(dest), os.path.abspath(src),)

@@ -28,6 +28,9 @@ def setUp(test):
     zc.buildout.testing.install_develop('collective.recipe.omelette', test)
 
 def tearDown(test):
+    # get rid of the temporary test directory using the windows-safe rmtree
+    rmtree(os.getcwd())
+    
     zc.buildout.testing.buildoutTearDown(test)
     
     # get rid of the extra product directory that may have been created

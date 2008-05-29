@@ -1,5 +1,6 @@
 for 0.5:
 [ ] - run tests on Windows
+[ ] - display error if junction not found (on Windows)
 
 sometime soon:
 [ ] - write howto for plone.org
