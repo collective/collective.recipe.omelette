@@ -96,8 +96,6 @@ your PATH when you run omelette.
 
 .. _junction: http://www.microsoft.com/technet/sysinternals/fileanddisk/junction.mspx
 
-As of omelette v0.5, Windows support should be considered beta quality.
-
 
 Using omelette with eggtractor
 ==============================

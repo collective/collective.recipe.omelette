@@ -1,5 +1,5 @@
-0.5 (TBD)
-=========
+0.5 (2008-05-29)
+================
 
  - Added uninstall entry point so that the omelette can be uninstalled on Windows without
    clobbering things outside the omelette path.

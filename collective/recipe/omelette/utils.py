@@ -20,7 +20,7 @@ if WIN32:
             found = True
             break
     if not found:
-        raise EnvironmentError(None, 'Junction.exe not found in path.  Collective.recipe.omelette cannot continue.')
+        raise EnvironmentError, "Junction.exe not found in path.  Collective.recipe.omelette cannot continue.  See omelette's README.txt."
     
     def symlink(src, dest):
         cmd = "%s %s %s" % (JUNCTION, os.path.abspath(dest), os.path.abspath(src),)
