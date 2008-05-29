@@ -56,7 +56,7 @@ packages from Zope's lib/python. It is important that omelette come last if you 
     recipe = collective.recipe.omelette
     eggs = ${instance:eggs}
     products = ${instance:products}
-    modules = ${zope2:location}/lib/python ./
+    packages = ${zope2:location}/lib/python ./
     
     
 Supported options
