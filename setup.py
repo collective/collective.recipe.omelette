@@ -8,20 +8,20 @@ from setuptools import setup, find_packages
 def read(*rnames):
     return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
 
-version = '0.6'
+version = '0.7'
 
 long_description = (
     read('README.txt')
-    + '\n' +
-    'Change history\n'
-    '**************\n'
-    + '\n' + 
-    read('CHANGES.txt')
     + '\n' +
     'Detailed Documentation\n'
     '**********************\n'
     + '\n' +
     read('collective', 'recipe', 'omelette', 'README.txt')
+    + '\n' +
+    'Change history\n'
+    '**************\n'
+    + '\n' + 
+    read('CHANGES.txt')
     + '\n' +
     'Contributors\n' 
     '************\n'
