@@ -58,6 +58,9 @@ packages from Zope's lib/python. It is important that omelette come last if you 
     products = ${instance:products}
     packages = ${zope2:location}/lib/python ./
     
+(Note: If your instance part lacks a 'products' variable, omit it from the omelette section as well, or
+the omelette will silently fail to build.)
+
     
 Supported options
 =================
@@ -106,6 +109,19 @@ won't be aware of your eggs unless you a) manually add them to the omelette part
 b) add the name of the omelette part to the builout part's tractor-target-parts option.
 
 .. _buildout.eggtractor: http://pypi.python.org/pypi/buildout.eggtractor/
+
+
+Using omelette with zipped eggs
+===============================
+
+Omelette doesn't currently know how to deal with eggs that are zipped.  If it encounters one, you'll
+see a warning something like the following::
+
+    omelette: Warning: (While processing egg elementtree) Egg contents not found at
+    /Users/davidg/.buildout/eggs/elementtree-1.2.7_20070827_preview-py2.4.egg/elementtree.  Skipping.
+
+You can tell buildout to unzip all eggs by setting the unzip = true flag in the [buildout] section.
+(Note that this will only take effect for eggs downloaded after the flag is set.)
 
 
 Running the tests
