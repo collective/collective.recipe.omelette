@@ -125,6 +125,9 @@ class Recipe(object):
                             # These are processed in create_namespaces
                             continue
                         else:
+                            if not os.path.isdir(dist.location):
+                                self.logger.warn("Warning: (While processing egg %s) Package '%s' is zipped.  Skipping." % (project_name, package_name))
+                                continue
                             package_location = os.path.join(dist.location, package_name)
                             link_location = os.path.join(location, package_name)
                             # check for single python module
