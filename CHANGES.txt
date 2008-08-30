@@ -1,6 +1,9 @@
 0.7 (unreleased)
 ================
 
+ - Use egg-info instead of guessing paths from package name. This also fixes
+   eggs which have a name different from the contents.
+   [fschulze]
 
 0.6 (2008-08-11)
 ================

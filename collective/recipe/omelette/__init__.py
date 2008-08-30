@@ -77,36 +77,76 @@ class Recipe(object):
 
     def install(self):
         """Crack the eggs open and mix them together"""
-        
+
         location = self.options['location']
         if os.path.exists(location):
             rmtree(location)
-        
+        os.mkdir(location)
+
         try:
             requirements, ws = self.egg.working_set()
             for dist in ws.by_key.values():
                 project_name =  dist.project_name
-                if  project_name not in self.ignored_eggs:
-                    parts = project_name.split('.')
-                    namespaces = parts[:-1]
-                    package_name = parts[-1]
-                    egg_location = os.path.join(dist.location, *parts)
-                    
-                    link_dir = os.path.join(location, *namespaces)
-                    if not os.path.exists(link_dir):
-                        if not makedirs(link_dir):
-                            self.logger.warn("Warning: (While processing egg %s) Could not create containing directory.  Skipping." % (project_name))
+                if project_name not in self.ignored_eggs:
+                    namespaces = {}
+                    for line in dist._get_metadata('namespace_packages.txt'):
+                        ns = namespaces
+                        for part in line.split('.'):
+                            ns = ns.setdefault(part, {})
+                    top_level = list(dist._get_metadata('top_level.txt'))
+                    native_libs = list(dist._get_metadata('native_libs.txt'))
+                    def create_namespaces(namespaces, ns_base=()):
+                        for k, v in namespaces.iteritems():
+                            ns_parts = ns_base + (k,)
+                            link_dir = os.path.join(location, *ns_parts)
+                            if not os.path.exists(link_dir):
+                                if '/zc' in link_dir:
+                                    print link_dir, package_name, namespaces
+                                if not makedirs(link_dir):
+                                    self.logger.warn("Warning: (While processing egg %s) Could not create namespace directory (%s).  Skipping." % (project_name, link_dir))
+                                    continue
+                            if len(v) > 0:
+                                create_namespaces(v, ns_parts)
+                            else:
+                                egg_ns_dir = os.path.join(dist.location, *ns_parts)
+                                dirs = [x for x in os.listdir(egg_ns_dir)
+                                        if os.path.isdir(
+                                            os.path.join(egg_ns_dir, x)
+                                        )]
+                                for name in dirs:
+                                    name_parts = ns_parts + (name,)
+                                    src = os.path.join(dist.location, *name_parts)
+                                    dst = os.path.join(location, *name_parts)
+                                    symlink(src, dst)
+                    create_namespaces(namespaces)
+                    for package_name in top_level:
+                        if package_name in namespaces:
+                            # These are processed in create_namespaces
                             continue
-                    link_location = os.path.join(link_dir, package_name)
-                    if not os.path.exists(egg_location):
-                        self.logger.warn("Warning: (While processing egg %s) Egg contents not found at %s.  Skipping." % (project_name, egg_location))
-                        continue
-                    if not os.path.exists(link_location):
-                        symlink(egg_location, link_location)
-                    else:
-                        self.logger.warn("Warning: (While processing egg %s) Link already exists.  Skipping." % project_name)
-                        continue
-                    
+                        else:
+                            package_location = os.path.join(dist.location, package_name)
+                            link_location = os.path.join(location, package_name)
+                            # check for single python module
+                            if not os.path.exists(package_location):
+                                package_location = os.path.join(dist.location, package_name+".py")
+                                link_location = os.path.join(location, package_name+".py")
+                            # check for native libs
+                            # XXX - this should use native_libs from above
+                            if not os.path.exists(package_location):
+                                package_location = os.path.join(dist.location, package_name+".so")
+                                link_location = os.path.join(location, package_name+".so")
+                            if not os.path.exists(package_location):
+                                package_location = os.path.join(dist.location, package_name+".dll")
+                                link_location = os.path.join(location, package_name+".dll")
+                            if not os.path.exists(package_location):
+                                self.logger.warn("Warning: (While processing egg %s) Package '%s' not found.  Skipping." % (project_name, package_name))
+                                continue
+                        if not os.path.exists(link_location):
+                            symlink(package_location, link_location)
+                        else:
+                            self.logger.warn("Warning: (While processing egg %s) Link already exists (%s -> %s).  Skipping." % (project_name, package_location, link_location))
+                            continue
+
             for package in self.packages:
                 if len(package) == 1:
                     link_name = 'Products/'
@@ -153,7 +193,7 @@ class Recipe(object):
                 else:
                     symlink(package_location, link_location)
         else:
-            print "Warning: Product directory %s not found.  Skipping." % package_dir
+            self.logger.warn("Warning: Product directory %s not found.  Skipping." % package_dir)
         
 def uninstall(name, options):
     location = options.get('location')
