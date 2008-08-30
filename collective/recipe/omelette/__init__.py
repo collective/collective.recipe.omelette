@@ -100,8 +100,6 @@ class Recipe(object):
                             ns_parts = ns_base + (k,)
                             link_dir = os.path.join(location, *ns_parts)
                             if not os.path.exists(link_dir):
-                                if '/zc' in link_dir:
-                                    print link_dir, package_name, namespaces
                                 if not makedirs(link_dir):
                                     self.logger.warn("Warning: (While processing egg %s) Could not create namespace directory (%s).  Skipping." % (project_name, link_dir))
                                     continue
@@ -109,14 +107,17 @@ class Recipe(object):
                                 create_namespaces(v, ns_parts)
                             else:
                                 egg_ns_dir = os.path.join(dist.location, *ns_parts)
-                                dirs = [x for x in os.listdir(egg_ns_dir)
-                                        if os.path.isdir(
-                                            os.path.join(egg_ns_dir, x)
-                                        )]
+                                dirs = os.listdir(egg_ns_dir)
                                 for name in dirs:
+                                    if not os.path.isdir(os.path.join(egg_ns_dir, name)):
+                                        continue
+                                    if name.startswith('.'):
+                                        continue
                                     name_parts = ns_parts + (name,)
                                     src = os.path.join(dist.location, *name_parts)
                                     dst = os.path.join(location, *name_parts)
+                                    if os.path.exists(dst):
+                                        continue
                                     symlink(src, dst)
                     create_namespaces(namespaces)
                     for package_name in top_level:
