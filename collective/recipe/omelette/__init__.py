@@ -24,7 +24,7 @@ import sys
 import shutil
 import logging
 import zc.recipe.egg
-from collective.recipe.omelette.utils import symlink, unlink, islink, rmtree
+from collective.recipe.omelette.utils import symlink, unlink, islink, rmtree, WIN32
 
 def makedirs(target):
     """ Similar to os.makedirs, but adds __init__.py files as it goes.  Returns a boolean
@@ -143,6 +143,9 @@ class Recipe(object):
                                 self.logger.warn("Warning: (While processing egg %s) Package '%s' not found.  Skipping." % (project_name, package_name))
                                 continue
                         if not os.path.exists(link_location):
+                            if WIN32 and not os.path.isdir(package_location):
+                                self.logger.warn("Warning: (While processing egg %s) Can't link files on Windows (%s -> %s).  Skipping." % (project_name, package_location, link_location))
+                                continue
                             symlink(package_location, link_location)
                         else:
                             self.logger.warn("Warning: (While processing egg %s) Link already exists (%s -> %s).  Skipping." % (project_name, package_location, link_location))
