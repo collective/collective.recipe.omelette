@@ -1,3 +1,4 @@
- - David Glick [davisagli], Author
- - Clayton Parker [claytron], Code Monkey
- - Martin Aspeli [optilude], Windows Hacker
+ - David Glick [davisagli]
+ - Clayton Parker [claytron]
+ - Martin Aspeli [optilude]
+ - Florian Schulze [fschulze]

@@ -1,6 +1,9 @@
 0.7 (unreleased)
 ================
 
+ - Actually add namespace declarations to generated __init__.py files.
+   [davisagli]
+
  - Use egg-info instead of guessing paths from package name. This also fixes
    eggs which have a name different from the contents.
    [fschulze]

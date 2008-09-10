@@ -26,13 +26,21 @@ import logging
 import zc.recipe.egg
 from collective.recipe.omelette.utils import symlink, unlink, islink, rmtree, WIN32
 
-def makedirs(target):
+NAMESPACE_STANZA = """# See http://peak.telecommunity.com/DevCenter/setuptools#namespace-packages
+try:
+    __import__('pkg_resources').declare_namespace(__name__)
+except ImportError:
+    from pkgutil import extend_path
+    __path__ = extend_path(__path__, __name__)
+"""
+
+def makedirs(target, is_namespace=False):
     """ Similar to os.makedirs, but adds __init__.py files as it goes.  Returns a boolean
         indicating success.
     """
     drive, path = os.path.splitdrive(target)
     parts = path.split(os.path.sep)
-    current = drive + os.path.sep    
+    current = drive + os.path.sep
     for part in parts:
         current = os.path.join(current, part)
         if islink(current):
@@ -42,7 +50,10 @@ def makedirs(target):
             init_filename = os.path.join(current, '__init__.py')
             if not os.path.exists(init_filename):
                 init_file = open(init_filename, 'w')
-                init_file.write("# mushroom")
+                if is_namespace or part == 'Products':
+                    init_file.write(NAMESPACE_STANZA)
+                else:
+                    init_file.write('# mushroom')
                 init_file.close()
     return True
     
@@ -100,7 +111,7 @@ class Recipe(object):
                             ns_parts = ns_base + (k,)
                             link_dir = os.path.join(location, *ns_parts)
                             if not os.path.exists(link_dir):
-                                if not makedirs(link_dir):
+                                if not makedirs(link_dir, is_namespace=True):
                                     self.logger.warn("Warning: (While processing egg %s) Could not create namespace directory (%s).  Skipping." % (project_name, link_dir))
                                     continue
                             if len(v) > 0:
