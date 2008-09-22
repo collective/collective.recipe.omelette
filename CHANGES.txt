@@ -1,6 +1,10 @@
 0.8 (Unreleased)
 ================
 
+ - Fixed 'OSError [Errno 20] Not a directory' on zipped eggs, for
+   example when adding the z3c.sqlalchemy==1.3.5 egg.
+   [maurits]
+
 
 0.7 (2008-09-10)
 ================
@@ -11,6 +15,7 @@
  - Use egg-info instead of guessing paths from package name. This also fixes
    eggs which have a name different from the contents.
    [fschulze]
+
 
 0.6 (2008-08-11)
 ================

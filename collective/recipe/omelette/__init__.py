@@ -118,6 +118,9 @@ class Recipe(object):
                                 create_namespaces(v, ns_parts)
                             else:
                                 egg_ns_dir = os.path.join(dist.location, *ns_parts)
+                                if not os.path.isdir(egg_ns_dir):
+                                    self.logger.warn("Warning: file '%s' is zipped.  Skipping." % (egg_ns_dir))
+                                    continue
                                 dirs = os.listdir(egg_ns_dir)
                                 for name in dirs:
                                     if not os.path.isdir(os.path.join(egg_ns_dir, name)):
