@@ -98,7 +98,7 @@ class Recipe(object):
             requirements, ws = self.egg.working_set()
             for dist in ws.by_key.values():
                 project_name =  dist.project_name
-                if project_name not in self.ignored_eggs:
+                if project_name not in self.ignored_eggs:                    
                     namespaces = {}
                     for line in dist._get_metadata('namespace_packages.txt'):
                         ns = namespaces
@@ -119,7 +119,7 @@ class Recipe(object):
                             else:
                                 egg_ns_dir = os.path.join(dist.location, *ns_parts)
                                 if not os.path.isdir(egg_ns_dir):
-                                    self.logger.warn("Warning: file '%s' is zipped.  Skipping." % (egg_ns_dir))
+                                    self.logger.warn("Warning: (While processing egg %s) Package '%s' is zipped.  Skipping." % (project_name, os.path.sep.join(ns_parts)))
                                     continue
                                 dirs = os.listdir(egg_ns_dir)
                                 for name in dirs:
@@ -142,6 +142,7 @@ class Recipe(object):
                             if not os.path.isdir(dist.location):
                                 self.logger.warn("Warning: (While processing egg %s) Package '%s' is zipped.  Skipping." % (project_name, package_name))
                                 continue
+                            
                             package_location = os.path.join(dist.location, package_name)
                             link_location = os.path.join(location, package_name)
                             # check for single python module

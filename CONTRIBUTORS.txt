@@ -2,3 +2,4 @@
  - Clayton Parker [claytron]
  - Martin Aspeli [optilude]
  - Florian Schulze [fschulze]
+ - Maurits van Rees [maurits]
