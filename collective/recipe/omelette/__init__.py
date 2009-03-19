@@ -119,7 +119,7 @@ class Recipe(object):
                             else:
                                 egg_ns_dir = os.path.join(dist.location, *ns_parts)
                                 if not os.path.isdir(egg_ns_dir):
-                                    self.logger.warn("Warning: (While processing egg %s) Package '%s' is zipped.  Skipping." % (project_name, os.path.sep.join(ns_parts)))
+                                    self.logger.info("(While processing egg %s) Package '%s' is zipped.  Skipping." % (project_name, os.path.sep.join(ns_parts)))
                                     continue
                                 dirs = os.listdir(egg_ns_dir)
                                 for name in dirs:
@@ -140,7 +140,7 @@ class Recipe(object):
                             continue
                         else:
                             if not os.path.isdir(dist.location):
-                                self.logger.warn("Warning: (While processing egg %s) Package '%s' is zipped.  Skipping." % (project_name, package_name))
+                                self.logger.info("(While processing egg %s) Package '%s' is zipped.  Skipping." % (project_name, package_name))
                                 continue
                             
                             package_location = os.path.join(dist.location, package_name)
@@ -166,7 +166,7 @@ class Recipe(object):
                                 continue
                             symlink(package_location, link_location)
                         else:
-                            self.logger.warn("Warning: (While processing egg %s) Link already exists (%s -> %s).  Skipping." % (project_name, package_location, link_location))
+                            self.logger.info("(While processing egg %s) Link already exists (%s -> %s).  Skipping." % (project_name, package_location, link_location))
                             continue
 
             for package in self.packages:
