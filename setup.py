@@ -8,7 +8,7 @@ from setuptools import setup, find_packages
 def read(*rnames):
     return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
 
-version = '0.8'
+version = '0.9'
 
 long_description = (
     'Detailed Documentation\n'
@@ -25,9 +25,6 @@ long_description = (
     '************\n'
     + '\n' +
     read('CONTRIBUTORS.txt')
-    + '\n' +
-    'Download\n'
-    '********\n'
     )
 entry_point = 'collective.recipe.omelette:Recipe'
 uninstall_entry_point = 'collective.recipe.omelette:uninstall'
@@ -35,7 +32,7 @@ uninstall_entry_point = 'collective.recipe.omelette:uninstall'
 entry_points = {"zc.buildout": ["default = %s" % entry_point],
                 "zc.buildout.uninstall": ["default = %s" % uninstall_entry_point]}
 
-tests_require=['zope.testing', 'zc.recipe.egg']
+tests_require=['zope.testing', 'zc.buildout>=1.2.1', 'zc.recipe.egg']
 
 setup(name='collective.recipe.omelette',
       version=version,
