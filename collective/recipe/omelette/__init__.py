@@ -132,7 +132,10 @@ class Recipe(object):
                                     dst = os.path.join(location, *name_parts)
                                     if os.path.exists(dst):
                                         continue
-                                    symlink(src, dst)
+                                    try:
+                                        symlink(src, dst)
+                                    except OSError:
+                                        self.logger.warn("Could not create symlink while processing %s" % (os.path.join(*name_parts)))
                     create_namespaces(namespaces)
                     for package_name in top_level:
                         if package_name in namespaces:

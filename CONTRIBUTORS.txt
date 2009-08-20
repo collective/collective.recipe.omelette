@@ -4,3 +4,4 @@
  - Florian Schulze [fschulze]
  - Maurits van Rees [maurits]
  - Malthe Borch [malthe]
+ - Matthew Wilkes [MatthewWilkes]
