@@ -123,8 +123,6 @@ class Recipe(object):
                                     continue
                                 dirs = os.listdir(egg_ns_dir)
                                 for name in dirs:
-                                    if not os.path.isdir(os.path.join(egg_ns_dir, name)):
-                                        continue
                                     if name.startswith('.'):
                                         continue
                                     name_parts = ns_parts + (name,)

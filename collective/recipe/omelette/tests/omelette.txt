@@ -28,14 +28,8 @@ Now we have everything linked together in one place, pointing at the real locati
     >>> import os
     >>> ls('parts')
     d omelette
-    >>> ls('parts/omelette')
-    d Products
-    l easy_install.py
-    d omelettetests
-    l pkg_resources.py
-    d setuptools
-    l site.py
-    d subpackage
+    >>> cat('parts/omelette/omelettetests/ingredient.py')
+    """Namespace packages can contain modules.  This is one such module."""
     >>> ls('parts/omelette/omelettetests/egg1')
     - __init__.py
     - in_egg1.txt
@@ -56,9 +50,8 @@ Now we have everything linked together in one place, pointing at the real locati
 Add a new product and re-run buildout to make sure it updates::
 
     >>> mkdir('%(test_dir)s/Products/Product3' % globals())
-    >>> print system(buildout + ' -q')
-    omelette: Warning: ...
-    <BLANKLINE>
+    >>> 'omelette: Warning:' in system(buildout + ' -q')
+    True
     >>> ls('parts/omelette/Products')
     d Product1
     d Product2
@@ -87,9 +80,8 @@ stuff accidentally::
     ... packages = %(test_dir)s/package .
     ... products = %(test_dir)s/Products
     ... """ % globals())
-    >>> print system(buildout + ' -q')
-    frittata: Warning: ...
-    <BLANKLINE>
+    >>> 'frittata: Warning:' in system(buildout + ' -q')
+    True
     >>> ls('parts')
     d frittata
     >>> ls('parts/frittata/omelettetests/egg1')
@@ -167,8 +159,5 @@ Or ignore all development eggs::
     ... ignore-develop = true
     ... """)
     >>> print system(buildout + ' -q')
-    >>> ls('parts/omelette')
-    l easy_install.py
-    l pkg_resources.py
-    d setuptools
-    l site.py
+    >>> os.path.exists('parts/omelette/collective')
+    False
