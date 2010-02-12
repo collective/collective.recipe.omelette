@@ -139,12 +139,12 @@ You can ignore a particular package::
     ... [omelette]
     ... recipe = collective.recipe.omelette
     ... eggs = ${buildout:eggs}
-    ... ignores = setuptools
+    ... ignores = setuptools, distribute
     ... """)
     >>> print system(buildout + ' -q')
     >>> os.path.exists('parts/omelette/setuptools')
     False
-    
+
 Or ignore all development eggs::
 
     >>> write('buildout.cfg',

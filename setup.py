@@ -32,6 +32,7 @@ uninstall_entry_point = 'collective.recipe.omelette:uninstall'
 entry_points = {"zc.buildout": ["default = %s" % entry_point],
                 "zc.buildout.uninstall": ["default = %s" % uninstall_entry_point]}
 
+install_requires=['setuptools', 'zc.buildout', 'zc.recipe.egg']
 tests_require=['zope.testing', 'zc.buildout>=1.2.1', 'zc.recipe.egg']
 
 setup(name='collective.recipe.omelette',
@@ -55,10 +56,7 @@ setup(name='collective.recipe.omelette',
       namespace_packages=['collective', 'collective.recipe'],
       include_package_data=True,
       zip_safe=False,
-      install_requires=['setuptools',
-                        'zc.buildout',
-                        'zc.recipe.egg',
-                        ],
+      install_requires=install_requires,
       tests_require=tests_require,
       extras_require=dict(tests=tests_require),
       test_suite = 'collective.recipe.omelette.tests.test_docs.test_suite',

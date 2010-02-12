@@ -1,6 +1,9 @@
 0.10 (Unreleased)
 =================
 
+ - Made the tests compatible with a zc.buildout installed with Distribute rather
+   than Setuptools. [pumazi]
+
  - Handle OSErrors on symlink and warn the user. MacOSX can raise OSError due to
    an existing file here even if os.path.exists returns False.
    [MatthewWilkes]
