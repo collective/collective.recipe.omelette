@@ -116,24 +116,20 @@ class Recipe(object):
                                     continue
                             if len(v) > 0:
                                 create_namespaces(v, ns_parts)
-                            else:
-                                egg_ns_dir = os.path.join(dist.location, *ns_parts)
-                                if not os.path.isdir(egg_ns_dir):
-                                    self.logger.info("(While processing egg %s) Package '%s' is zipped.  Skipping." % (project_name, os.path.sep.join(ns_parts)))
+                            egg_ns_dir = os.path.join(dist.location, *ns_parts)
+                            if not os.path.isdir(egg_ns_dir):
+                                self.logger.info("(While processing egg %s) Package '%s' is zipped.  Skipping." % (project_name, os.path.sep.join(ns_parts)))
+                                continue
+                            dirs = os.listdir(egg_ns_dir)
+                            for name in dirs:
+                                if name.startswith('.'):
                                     continue
-                                dirs = os.listdir(egg_ns_dir)
-                                for name in dirs:
-                                    if name.startswith('.'):
-                                        continue
-                                    name_parts = ns_parts + (name,)
-                                    src = os.path.join(dist.location, *name_parts)
-                                    dst = os.path.join(location, *name_parts)
-                                    if os.path.exists(dst):
-                                        continue
-                                    try:
-                                        symlink(src, dst)
-                                    except OSError:
-                                        self.logger.warn("Could not create symlink while processing %s" % (os.path.join(*name_parts)))
+                                name_parts = ns_parts + (name,)
+                                src = os.path.join(dist.location, *name_parts)
+                                dst = os.path.join(location, *name_parts)
+                                if os.path.exists(dst):
+                                    continue
+                                symlink(src, dst)
                     create_namespaces(namespaces)
                     for package_name in top_level:
                         if package_name in namespaces:
