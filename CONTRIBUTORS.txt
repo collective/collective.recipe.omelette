@@ -6,3 +6,5 @@
  - Malthe Borch [malthe]
  - Matthew Wilkes [MatthewWilkes]
  - Michael Mulich [pumazi]
+ - Shane Hathaway [hathawsh]
+ 

@@ -106,7 +106,7 @@ Using omelette with eggtractor
 Mustapha Benali's buildout.eggtractor_ provides a handy way for buildout to automatically find
 development eggs without having to edit buildout.cfg.  However, if you use it, the omelette recipe
 won't be aware of your eggs unless you a) manually add them to the omelette part's eggs option, or
-b) add the name of the omelette part to the builout part's tractor-target-parts option.
+b) add the name of the omelette part to the buildout part's tractor-target-parts option.
 
 .. _buildout.eggtractor: http://pypi.python.org/pypi/buildout.eggtractor/
 

@@ -27,6 +27,7 @@ Now we have everything linked together in one place, pointing at the real locati
 
     >>> import os
     >>> ls('parts')
+    d buildout
     d omelette
     >>> cat('parts/omelette/omelettetests/ingredient.py')
     """Namespace packages can contain modules.  This is one such module."""
@@ -83,6 +84,7 @@ stuff accidentally::
     >>> 'frittata: Warning:' in system(buildout + ' -q')
     True
     >>> ls('parts')
+    d buildout
     d frittata
     >>> ls('parts/frittata/omelettetests/egg1')
     - __init__.py

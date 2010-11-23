@@ -20,11 +20,10 @@ contents of a lists of eggs.  See README.txt for details.
 """
 
 import os
-import sys
-import shutil
 import logging
 import zc.recipe.egg
-from collective.recipe.omelette.utils import symlink, unlink, islink, rmtree, WIN32
+from collective.recipe.omelette.utils import symlink, islink, rmtree, WIN32
+from collective.recipe.omelette.utils import HAS_JUNCTION
 
 NAMESPACE_STANZA = """# See http://peak.telecommunity.com/DevCenter/setuptools#namespace-packages
 try:
@@ -89,6 +88,13 @@ class Recipe(object):
     def install(self):
         """Crack the eggs open and mix them together"""
 
+        if WIN32 and not HAS_JUNCTION:
+            self.logger.warn("Skipping omelette because junction.exe is not "
+                             "available on win32. See "
+                             "collective.recipe.omelette's "
+                             "README.txt.")
+            return
+
         location = self.options['location']
         if os.path.exists(location):
             rmtree(location)
@@ -105,7 +111,7 @@ class Recipe(object):
                         for part in line.split('.'):
                             ns = ns.setdefault(part, {})
                     top_level = list(dist._get_metadata('top_level.txt'))
-                    native_libs = list(dist._get_metadata('native_libs.txt'))
+                    # native_libs = list(dist._get_metadata('native_libs.txt'))
                     def create_namespaces(namespaces, ns_base=()):
                         for k, v in namespaces.iteritems():
                             ns_parts = ns_base + (k,)
@@ -186,7 +192,9 @@ class Recipe(object):
             raise
         
         return location
-        
+    
+    update = install
+    
     def _add_bacon(self, package_dir, target_dir):
         """ Link packages from package_dir into target_dir.  Recurse a level if target_dir/(package)
             already exists.

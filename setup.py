@@ -37,9 +37,8 @@ tests_require=['zope.testing', 'zc.buildout>=1.2.1', 'zc.recipe.egg']
 
 setup(name='collective.recipe.omelette',
       version=version,
-      description="Creates a unified directory structure of all namespace packages, symlinking to the actual contents, in order to ease navigation.",
+      description="Creates a unified directory structure of installed packages, symlinking to the actual contents, in order to ease navigation.",
       long_description=long_description,
-      # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
         'Framework :: Buildout',
         'Intended Audience :: Developers',
@@ -48,8 +47,8 @@ setup(name='collective.recipe.omelette',
         'License :: OSI Approved :: GNU General Public License (GPL)',
         ],
       keywords='buildout eggs namespace',
-      author='David Glick',
-      author_email='davidglick@onenw.org',
+      author='David Glick, Groundwire',
+      author_email='davidglick@groundwire.org',
       url='http://pypi.python.org/pypi/collective.recipe.omelette',
       license='GPL',
       packages=find_packages(exclude=['ez_setup']),

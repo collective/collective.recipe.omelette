@@ -1,6 +1,7 @@
 import sys, os, shutil
 
 WIN32 = False
+HAS_JUNCTION = False
 if sys.platform[:3].lower() == "win":
     WIN32 = True
 
@@ -12,15 +13,13 @@ if WIN32:
         stdout.close()
         return output
     
-    # find the junction utility; warn if missing
+    # find the junction utility
     JUNCTION = "junction.exe"
-    found = False
+    HAS_JUNCTION = False
     for path in os.environ['PATH'].split(';'):
         if os.path.exists(os.path.join(path, JUNCTION)):
-            found = True
+            HAS_JUNCTION = True
             break
-    if not found:
-        raise EnvironmentError, "Junction.exe not found in path.  Collective.recipe.omelette cannot continue.  See omelette's README.txt."
     
     def symlink(src, dest):
         cmd = "%s %s %s" % (JUNCTION, os.path.abspath(dest), os.path.abspath(src),)

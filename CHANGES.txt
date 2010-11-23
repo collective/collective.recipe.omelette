@@ -1,15 +1,24 @@
 0.10 (Unreleased)
 =================
 
+ - Provide an update function (equivalent to install) to avoid spurious "recipe
+   "doesn't define an update method" warning.
+   [davisagli]
+
+ - Print a warning rather than aborting the buildout if junction.exe is missing
+   on Windows.
+   [davisagli]
+
  - Made the tests compatible with a zc.buildout installed with Distribute rather
-   than Setuptools. [pumazi]
+   than Setuptools.
+   [pumazi]
 
  - Handle OSErrors on symlink and warn the user. MacOSX can raise OSError due to
    an existing file here even if os.path.exists returns False.
    [MatthewWilkes]
 
  - Include modules from namespace packages in the omelette. (Namespace packages
-   can not define anything in __init__.py, but they can contain modules.)
+   cannot define anything in __init__.py, but they can contain modules.)
    [hathawsh]
 
  - Made the tests compatible with virtualenv.

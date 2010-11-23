@@ -1,2 +1,0 @@
-sometime:
-[ ] - write howto for plone.org
