@@ -1,4 +1,4 @@
-0.10 (Unreleased)
+0.10 (2010-11-22)
 =================
 
  - Provide an update function (equivalent to install) to avoid spurious "recipe

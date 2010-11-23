@@ -33,7 +33,7 @@ entry_points = {"zc.buildout": ["default = %s" % entry_point],
                 "zc.buildout.uninstall": ["default = %s" % uninstall_entry_point]}
 
 install_requires=['setuptools', 'zc.buildout', 'zc.recipe.egg']
-tests_require=['zope.testing', 'zc.buildout>=1.2.1', 'zc.recipe.egg']
+tests_require=['zope.testing', 'zc.buildout>=1.5.2', 'zc.recipe.egg']
 
 setup(name='collective.recipe.omelette',
       version=version,
