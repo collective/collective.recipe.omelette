@@ -1,6 +1,10 @@
 0.11 (unreleased)
 =================
 
+ - Sort top_level metadata to avoid error building omelette if they are out of
+   order.  Fixes https://bugs.launchpad.net/collective.buildout/+bug/553005.
+   Thanks to Leonardo Rochael Almeida.
+   [davisagli]
 
 0.10 (2010-11-22)
 =================

@@ -110,7 +110,7 @@ class Recipe(object):
                         ns = namespaces
                         for part in line.split('.'):
                             ns = ns.setdefault(part, {})
-                    top_level = list(dist._get_metadata('top_level.txt'))
+                    top_level = sorted(list(dist._get_metadata('top_level.txt')))
                     # native_libs = list(dist._get_metadata('native_libs.txt'))
                     def create_namespaces(namespaces, ns_base=()):
                         for k, v in namespaces.iteritems():
