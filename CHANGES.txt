@@ -1,6 +1,11 @@
 0.12 (unreleased)
 =================
 
+ - Replaced os.popen with subprocess aquivalent
+   [tom_gross]
+
+ - Quote path on windows to handle paths with spaces correctly
+   [tom_gross]
 
 0.11 (2011-07-18)
 =================

@@ -1,4 +1,5 @@
 import sys, os, shutil
+from subprocess import Popen, PIPE
 
 WIN32 = False
 HAS_JUNCTION = False
@@ -8,7 +9,7 @@ if sys.platform[:3].lower() == "win":
 if WIN32:
     
     def _run(cmd):
-        stdout = os.popen(cmd)
+        stdout = Popen(cmd, shell=True, stdout=PIPE).stdout
         output = stdout.read()
         stdout.close()
         return output
@@ -22,15 +23,15 @@ if WIN32:
             break
     
     def symlink(src, dest):
-        cmd = "%s %s %s" % (JUNCTION, os.path.abspath(dest), os.path.abspath(src),)
+        cmd = '%s "%s" "%s"' % (JUNCTION, os.path.abspath(dest), os.path.abspath(src),)
         _run(cmd)
 
     def unlink(dest):
-        cmd = "%s -d %s" % (JUNCTION, os.path.abspath(dest),)
+        cmd = '%s -d "%s"' % (JUNCTION, os.path.abspath(dest),)
         _run(cmd)
 
     def islink(dest):
-        cmd = "%s %s" % (JUNCTION, os.path.abspath(dest),)
+        cmd = '%s "%s"' % (JUNCTION, os.path.abspath(dest),)
         output = _run(cmd)
         return "Substitute Name:" in output
         
