@@ -64,7 +64,7 @@ class Recipe(object):
         self.logger = logging.getLogger(self.name)
         self.egg = zc.recipe.egg.Egg(buildout, options['recipe'], options)
                 
-        if not options.has_key('location'):
+        if 'location' not in options:
             options['location'] = os.path.join(
                 buildout['buildout']['parts-directory'],
                 self.name,
