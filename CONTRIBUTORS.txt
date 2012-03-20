@@ -9,3 +9,4 @@
  - Shane Hathaway [hathawsh]
  - Leonardo Rochael Almeida [LeoRochael]
  - Tom Gross [tom_gross]
+ - Richard Mitchell [mitchell]

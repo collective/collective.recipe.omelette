@@ -1,6 +1,8 @@
 0.13 (unreleased)
 =================
 
+ - Added forward-compatibility with Python 3
+   [mitchell]
 
 0.12 (2011-09-08)
 =================
