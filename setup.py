@@ -3,6 +3,7 @@
 This module contains the tool of collective.recipe.omelette
 """
 import os
+import sys
 from setuptools import setup, find_packages
 
 def read(*rnames):
@@ -35,6 +36,10 @@ entry_points = {"zc.buildout": ["default = %s" % entry_point],
 install_requires=['setuptools', 'zc.buildout', 'zc.recipe.egg']
 tests_require=['zope.testing', 'zc.buildout>=1.5.2', 'zc.recipe.egg']
 
+extra = {}
+if sys.version_info >= (3,):
+    extra['use_2to3'] = True
+
 setup(name='collective.recipe.omelette',
       version=version,
       description="Creates a unified directory structure of installed packages, symlinking to the actual contents, in order to ease navigation.",
@@ -60,4 +65,5 @@ setup(name='collective.recipe.omelette',
       extras_require=dict(tests=tests_require),
       test_suite = 'collective.recipe.omelette.tests.test_docs.test_suite',
       entry_points=entry_points,
+      **extra
       )
