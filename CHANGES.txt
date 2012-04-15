@@ -1,4 +1,4 @@
-0.13 (unreleased)
+0.13 (2012-04-14)
 =================
 
  - Added forward-compatibility with Python 3
