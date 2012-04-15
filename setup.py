@@ -15,7 +15,7 @@ long_description = (
     'Detailed Documentation\n'
     '**********************\n'
     + '\n' +
-    read('collective', 'recipe', 'omelette', 'README.txt')
+    read('README.rst')
     + '\n' +
     'Change history\n'
     '**************\n'
