@@ -10,12 +10,12 @@ This recipe sets up a directory structure that mirrors the actual python namespa
 symlinks to the egg contents.  So, instead of this...::
 
     egg-cache/
-        my.egg.one-1.0-py2.4.egg/
+        my.egg.one-1.0-py2.7.egg/
             my/
                 egg/
                     one/
                         (contents of first egg)
-        my.egg.two-1.0-py2.4.egg/
+        my.egg.two-1.0-py2.7.egg/
             my/
                 egg/
                     two/
@@ -129,7 +129,7 @@ Running the tests
 
 Just grab the recipe from svn and run::
 
-    python2.4 setup.py test
+    python setup.py test
 
 Known issue: The tests run buildout in a separate process, so it's currently
 impossible to put a pdb breakpoint in the recipe and debug during the test.
