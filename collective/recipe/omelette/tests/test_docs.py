@@ -8,6 +8,7 @@ import os
 import re
 import unittest
 import shutil
+import sys
 import zc.buildout.tests
 import zc.buildout.testing
 
@@ -37,6 +38,9 @@ def tearDown(test):
     product_dir = os.path.join(test_dir, 'Products', 'Product3')
     if os.path.exists(product_dir):
         rmtree(product_dir)
+
+def run(command, input=''):
+    sys.stdout.write(zc.buildout.testing.system(command, input))
 
 def test_suite():
     suite = unittest.TestSuite((
