@@ -23,7 +23,6 @@ import os
 import logging
 import zc.recipe.egg
 from collective.recipe.omelette.utils import symlink, islink, rmtree, WIN32
-from collective.recipe.omelette.utils import HAS_JUNCTION
 
 NAMESPACE_STANZA = """# See http://peak.telecommunity.com/DevCenter/setuptools#namespace-packages
 try:
@@ -87,13 +86,6 @@ class Recipe(object):
 
     def install(self):
         """Crack the eggs open and mix them together"""
-
-        if WIN32 and not HAS_JUNCTION:
-            self.logger.warn("Skipping omelette because junction.exe is not "
-                             "available on win32. See "
-                             "collective.recipe.omelette's "
-                             "README.txt.")
-            return
 
         location = self.options['location']
         if os.path.exists(location):
