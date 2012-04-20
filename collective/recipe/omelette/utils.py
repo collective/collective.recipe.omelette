@@ -7,8 +7,8 @@ if sys.platform[:3].lower() == "win":
 if WIN32:
     import jaraco.windows
     
-    symlink = jaraco.windows.fylesystem.symlink
-    islink = jaraco.windows.fylesystem.islink
+    symlink = jaraco.windows.filesystem.symlink
+    islink = jaraco.windows.filesystem.islink
     unlink = os.rmdir
     
     def rmtree(location, nonlinks=True):
