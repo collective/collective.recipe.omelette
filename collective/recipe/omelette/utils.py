@@ -7,11 +7,17 @@ if sys.platform[:3].lower() == "win":
 if WIN32:
     import ntfsutils.junction
     
-    symlink = ntfsutils.junction.create
     islink = ntfsutils.junction.isjunction
+    
+    def symlink(path):
+        if not os.path.isdir(path):
+            return
+        ntfsutils.junction.create(path)
+    
     def unlink(path):
-        if ntfsutils.junction.isjunction(path):
-            ntfsutils.junction.unlink(path)
+        if not ntfsutils.junction.isjunction(path):
+            return
+        ntfsutils.junction.unlink(path)
     
     def rmtree(location, nonlinks=True):
         # Explicitly unlink all junction'd links
