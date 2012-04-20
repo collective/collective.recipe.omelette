@@ -10,7 +10,7 @@ if WIN32:
     symlink = ntfsutils.junction.create
     islink = ntfsutils.junction.isjunction
     def unlink(path):
-        if ntfsutils.junction.islink(path):
+        if ntfsutils.junction.isjunction(path):
             ntfsutils.junction.unlink(path)
     
     def rmtree(location, nonlinks=True):
