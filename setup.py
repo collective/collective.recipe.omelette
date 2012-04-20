@@ -36,6 +36,9 @@ entry_points = {"zc.buildout": ["default = %s" % entry_point],
 install_requires=['setuptools', 'zc.buildout', 'zc.recipe.egg']
 tests_require=['zope.testing', 'zc.buildout>=1.5.2', 'zc.recipe.egg']
 
+if sys.platform[:3].lower() == "win":
+    install_requires += ['jaraco.windows']
+
 extra = {}
 if sys.version_info >= (3,):
     extra['use_2to3'] = True
