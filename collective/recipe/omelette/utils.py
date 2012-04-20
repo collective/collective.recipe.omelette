@@ -5,15 +5,13 @@ if sys.platform[:3].lower() == "win":
     WIN32 = True
 
 if WIN32:
-    from jaraco.windows import filesystem
+    import ntfsutils.junction
     
+    symlink = ntfsutils.junction.create
+    islink = ntfsutils.junction.isjunction
     def unlink(path):
-        if not filesystem.islink(path):
-            return
-        os.rmdir(path)
-    
-    symlink = filesystem.symlink
-    islink = filesystem.islink
+        if ntfsutils.junction.islink(path):
+            ntfsutils.junction.unlink(path)
     
     def rmtree(location, nonlinks=True):
         # Explicitly unlink all junction'd links
