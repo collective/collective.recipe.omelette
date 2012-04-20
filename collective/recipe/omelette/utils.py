@@ -9,10 +9,10 @@ if WIN32:
     
     islink = ntfsutils.junction.isjunction
     
-    def symlink(path):
-        if not os.path.isdir(path):
+    def symlink(source, link_name):
+        if not os.path.isdir(source):
             return
-        ntfsutils.junction.create(path)
+        ntfsutils.junction.create(source, link_name)
     
     def unlink(path):
         if not ntfsutils.junction.isjunction(path):
