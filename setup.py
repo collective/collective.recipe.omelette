@@ -37,7 +37,7 @@ install_requires=['setuptools', 'zc.buildout', 'zc.recipe.egg']
 tests_require=['zope.testing', 'zc.buildout>=1.5.2', 'zc.recipe.egg']
 
 if sys.platform[:3].lower() == "win":
-    install_requires += ['jaraco.windows']
+    install_requires += ['ntfsutils']
 
 extra = {}
 if sys.version_info >= (3,):
