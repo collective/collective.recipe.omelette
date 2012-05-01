@@ -1,48 +1,30 @@
 import sys, os, shutil
-from subprocess import Popen, PIPE
 
 WIN32 = False
-HAS_JUNCTION = False
 if sys.platform[:3].lower() == "win":
     WIN32 = True
 
 if WIN32:
+    import ntfsutils.junction
     
-    def _run(cmd):
-        stdout = Popen(cmd, shell=True, stdout=PIPE).stdout
-        output = stdout.read()
-        stdout.close()
-        return output
+    islink = ntfsutils.junction.isjunction
     
-    # find the junction utility
-    JUNCTION = "junction.exe"
-    HAS_JUNCTION = False
-    for path in os.environ['PATH'].split(';'):
-        if os.path.exists(os.path.join(path, JUNCTION)):
-            HAS_JUNCTION = True
-            break
+    def symlink(source, link_name):
+        if not os.path.isdir(source):
+            return
+        ntfsutils.junction.create(source, link_name)
     
-    def symlink(src, dest):
-        cmd = '%s "%s" "%s"' % (JUNCTION, os.path.abspath(dest), os.path.abspath(src),)
-        _run(cmd)
-
-    def unlink(dest):
-        cmd = '%s -d "%s"' % (JUNCTION, os.path.abspath(dest),)
-        _run(cmd)
-
-    def islink(dest):
-        cmd = '%s "%s"' % (JUNCTION, os.path.abspath(dest),)
-        output = _run(cmd)
-        return "Substitute Name:" in output
-        
-        
+    def unlink(path):
+        if not ntfsutils.junction.isjunction(path):
+            return
+        ntfsutils.junction.unlink(path)
+    
     def rmtree(location, nonlinks=True):
         # Explicitly unlink all junction'd links
         for root, dirs, files in os.walk(location, topdown=False):
             for dir in dirs:
                 path = os.path.join(root, dir)
-                if islink(path):
-                    unlink(path)
+                unlink(path)
         # Then get rid of everything else
         if nonlinks:
             shutil.rmtree(location)
