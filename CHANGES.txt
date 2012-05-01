@@ -1,143 +1,143 @@
-0.14 (unreleased)
+0.14 (2012-04-30)
 =================
 
+- Change the approach to building the omelette using NTFS junctions
+  on Windows. This is now done via the ``ntfsutils`` package, rather
+  than relying on junction.exe.
+  [lck]
 
 0.13 (2012-04-14)
 =================
 
- - Added forward-compatibility with Python 3
-   [mitchell]
+- Added forward-compatibility with Python 3.
+  [mitchell]
 
 0.12 (2011-09-08)
 =================
 
- - Replaced os.popen with subprocess equivalent
-   [tom_gross]
+- Replaced os.popen with subprocess equivalent
+  [tom_gross]
 
- - Quote path on windows to handle paths with spaces correctly
-   [tom_gross]
+- Quote path on windows to handle paths with spaces correctly
+  [tom_gross]
 
 0.11 (2011-07-18)
 =================
 
- - Sort top_level metadata to avoid error building omelette if they are out of
-   order.  Fixes https://bugs.launchpad.net/collective.buildout/+bug/553005.
-   Thanks to Leonardo Rochael Almeida.
-   [davisagli]
+- Sort top_level metadata to avoid error building omelette if they are out of
+  order.  Fixes https://bugs.launchpad.net/collective.buildout/+bug/553005.
+  Thanks to Leonardo Rochael Almeida.
+  [davisagli]
 
 0.10 (2010-11-22)
 =================
 
- - Provide an update function (equivalent to install) to avoid spurious "recipe
-   "doesn't define an update method" warning.
-   [davisagli]
+- Provide an update function (equivalent to install) to avoid spurious "recipe
+  "doesn't define an update method" warning.
+  [davisagli]
 
- - Print a warning rather than aborting the buildout if junction.exe is missing
-   on Windows.
-   [davisagli]
+- Print a warning rather than aborting the buildout if junction.exe is missing
+  on Windows.
+  [davisagli]
 
- - Made the tests compatible with a zc.buildout installed with Distribute rather
-   than Setuptools.
-   [pumazi]
+- Made the tests compatible with a zc.buildout installed with Distribute 
+  rather than Setuptools.
+  [pumazi]
 
- - Handle OSErrors on symlink and warn the user. MacOSX can raise OSError due to
-   an existing file here even if os.path.exists returns False.
-   [MatthewWilkes]
+- Handle OSErrors on symlink and warn the user. MacOSX can raise OSError due 
+  to an existing file here even if os.path.exists returns False.
+  [MatthewWilkes]
 
- - Include modules from namespace packages in the omelette. (Namespace packages
-   cannot define anything in __init__.py, but they can contain modules.)
-   [hathawsh]
+- Include modules from namespace packages in the omelette. (Namespace packages
+  cannot define anything in __init__.py, but they can contain modules.)
+  [hathawsh]
 
- - Made the tests compatible with virtualenv.
-   [hathawsh]
+- Made the tests compatible with virtualenv.
+  [hathawsh]
 
 0.9 (2009-04-11)
 ================
 
- - Adjusted log-levels to be slightly less verbose for non-critical
-   errors. [malthe]
+- Adjusted log-levels to be slightly less verbose for non-critical
+  errors. [malthe]
 
 0.8 (2009-01-14)
 ================
 
- - Fixed 'OSError [Errno 20] Not a directory' on zipped eggs, for
-   example when adding the z3c.sqlalchemy==1.3.5 egg.
-   [maurits]
+- Fixed 'OSError [Errno 20] Not a directory' on zipped eggs, for
+  example when adding the z3c.sqlalchemy==1.3.5 egg.
+  [maurits]
 
 0.7 (2008-09-10)
 ================
 
- - Actually add namespace declarations to generated __init__.py files.
-   [davisagli]
+- Actually add namespace declarations to generated __init__.py files.
+  [davisagli]
 
- - Use egg-info instead of guessing paths from package name. This also fixes
-   eggs which have a name different from the contents.
-   [fschulze]
-
+- Use egg-info instead of guessing paths from package name. This also fixes
+  eggs which have a name different from the contents.
+  [fschulze]
 
 0.6 (2008-08-11)
 ================
 
- - Documentation changes only.
-   [davisagli]
-
+- Documentation changes only.
+  [davisagli]
 
 0.5 (2008-05-29)
 ================
 
- - Added uninstall entry point so that the omelette can be uninstalled on Windows without
-   clobbering things outside the omelette path.
-   [optilude]
+- Added uninstall entry point so that the omelette can be uninstalled on 
+  Windows without clobbering things outside the omelette path.
+  [optilude]
 
- - Support Windows using NTFS junctions (see http://www.microsoft.com/technet/sysinternals/FileAndDisk/Junction.mspx)
-   [optilude]
+- Support Windows using NTFS junctions (see
+  http://www.microsoft.com/technet/sysinternals/FileAndDisk/Junction.mspx)
+  [optilude]
 
- - Ignore zipped eggs and fakezope2eggs-created links.
-   [davisagli]
+- Ignore zipped eggs and fakezope2eggs-created links.
+  [davisagli]
 
- - Added 'packages' option to allow merging non-eggified Python packages to any directory in the omelette
-   (so that, for instance, the contents of Zope's lib/python can be merged flexibly).
-   [davisagli]
-
+- Added 'packages' option to allow merging non-eggified Python packages to 
+  any directory in the omelette (so that, for instance, the contents of 
+  Zope's lib/python can be merged flexibly).
+  [davisagli]
 
 0.4 (2008-04-07)
 ================
 
- - Added option to include Products directories.
-   [davisagli]
+- Added option to include Products directories.
+  [davisagli]
 
- - Fixed ignore-develop option.
-   [davisagli]
-
+- Fixed ignore-develop option.
+  [davisagli]
 
 0.3 (2008-03-30)
 ================
 
- - Fixed test infrastructure.
-   [davisagli]
+- Fixed test infrastructure.
+  [davisagli]
 
- - Added option to ignore develop eggs
-   [claytron]
+- Added option to ignore develop eggs
+  [claytron]
 
- - Added option to ignore eggs
-   [claytron]
+- Added option to ignore eggs
+  [claytron]
 
- - Added option to override the default omelette location.
-   [davisagli]
-
+- Added option to override the default omelette location.
+  [davisagli]
 
 0.2 (2008-03-16)
 ================
 
- - Fixed so created directories are not normalized to lowercase.
-   [davisagli]
-
+- Fixed so created directories are not normalized to lowercase.
+  [davisagli]
 
 0.1 (2008-03-10)
 ================
 
- - Initial basic implementation.
-   [davisagli]
+- Initial basic implementation.
+  [davisagli]
 
- - Created recipe with ZopeSkel.
-   [davisagli]
+- Created recipe with ZopeSkel.
+  [davisagli]
