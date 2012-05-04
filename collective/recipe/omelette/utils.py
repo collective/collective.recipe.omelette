@@ -16,15 +16,19 @@ if WIN32:
     
     def unlink(path):
         if not ntfsutils.junction.isjunction(path):
-            return
+            return False
         ntfsutils.junction.unlink(path)
+        return True
     
     def rmtree(location, nonlinks=True):
         # Explicitly unlink all junction'd links
-        for root, dirs, files in os.walk(location, topdown=False):
-            for dir in dirs:
-                path = os.path.join(root, dir)
-                unlink(path)
+        names = os.listdir(location)
+        for dir in names:
+            path = os.path.join(location, dir)
+            if unlink(path):
+                continue
+            if os.path.isdir(path):
+                rmtree(path)
         # Then get rid of everything else
         if nonlinks:
             shutil.rmtree(location)
