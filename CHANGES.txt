@@ -1,6 +1,8 @@
-0.15 (unreleased)
+0.15 (2012-05-12)
 =================
 
+- Optimized unlinking of junctioned dirs on Windows.
+  [lck]
 
 0.14 (2012-04-30)
 =================
