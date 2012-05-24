@@ -159,7 +159,10 @@ class Recipe(object):
                             if WIN32 and not os.path.isdir(package_location):
                                 self.logger.warn("Warning: (While processing egg %s) Can't link files on Windows (%s -> %s).  Skipping." % (project_name, package_location, link_location))
                                 continue
-                            symlink(package_location, link_location)
+                            try:
+                                symlink(package_location, link_location)
+                            except:
+                                self.logger.warn("While processing egg %s) symlink fails (%s, %s). Skipping." % (project_name, package_location, link_location))
                         else:
                             self.logger.info("(While processing egg %s) Link already exists (%s -> %s).  Skipping." % (project_name, package_location, link_location))
                             continue
