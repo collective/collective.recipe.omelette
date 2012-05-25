@@ -162,11 +162,11 @@ class Recipe(object):
                             try:
                                 symlink(package_location, link_location)
                             except OSError, e:
-                                self.logger.warn("While processing egg %s) symlink fails (%s, %s). Skipping.\nOrginal Exception:\n%s" % (project_name, package_location, link_location, str(e)))
+                                self.logger.warn("While processing egg %s) symlink fails (%s, %s). Skipping.\nOriginal Exception:\n%s" % (project_name, package_location, link_location, str(e)))
                             # except:
                             #    # TODO: clearify if recipe should fail on error or resume by skipping.
                             #    # Possible solution, add a recipe option, stop_on_fail that will quit buildout on general exceptions
-                            #    self.logger.warn("Unexpected error :\nWhile processing egg %s) symlink fails (%s, %s). Skipping.\nOrginal Exception:\n%s" % (project_name, package_location, link_location, sys.exc_info()[0]))
+                            #    self.logger.warn("Unexpected error :\nWhile processing egg %s) symlink fails (%s, %s). Skipping.\nOriginal Exception:\n%s" % (project_name, package_location, link_location, sys.exc_info()[0]))
                         else:
                             self.logger.info("(While processing egg %s) Link already exists (%s -> %s).  Skipping." % (project_name, package_location, link_location))
                             continue
