@@ -32,6 +32,7 @@ except ImportError:
     __path__ = extend_path(__path__, __name__)
 """
 
+
 def makedirs(target, is_namespace=False):
     """ Similar to os.makedirs, but adds __init__.py files as it goes.  Returns a boolean
         indicating success.
@@ -54,7 +55,8 @@ def makedirs(target, is_namespace=False):
                     init_file.write('# mushroom')
                 init_file.close()
     return True
-    
+
+
 class Recipe(object):
     """zc.buildout recipe"""
 
@@ -62,13 +64,13 @@ class Recipe(object):
         self.buildout, self.name, self.options = buildout, name, options
         self.logger = logging.getLogger(self.name)
         self.egg = zc.recipe.egg.Egg(buildout, options['recipe'], options)
-                
+
         if 'location' not in options:
             options['location'] = os.path.join(
                 buildout['buildout']['parts-directory'],
                 self.name,
                 )
-        
+
         ignore_develop = options.get('ignore-develop', '').lower()
         develop_eggs = []
         if ignore_develop in ('yes', 'true', 'on', '1', 'sure'):
@@ -77,7 +79,7 @@ class Recipe(object):
             develop_eggs = [dev_egg[:-9] for dev_egg in develop_eggs]
         ignores = options.get('ignores', '').split()
         self.ignored_eggs = develop_eggs + ignores
-        
+
         products = options.get('products', '').split()
         self.packages = [(p, 'Products') for p in products]
         self.packages += [l.split()
@@ -95,8 +97,8 @@ class Recipe(object):
         try:
             requirements, ws = self.egg.working_set()
             for dist in ws.by_key.values():
-                project_name =  dist.project_name
-                if project_name not in self.ignored_eggs:                    
+                project_name = dist.project_name
+                if project_name not in self.ignored_eggs:
                     namespaces = {}
                     for line in dist._get_metadata('namespace_packages.txt'):
                         ns = namespaces
@@ -104,6 +106,7 @@ class Recipe(object):
                             ns = ns.setdefault(part, {})
                     top_level = sorted(list(dist._get_metadata('top_level.txt')))
                     # native_libs = list(dist._get_metadata('native_libs.txt'))
+
                     def create_namespaces(namespaces, ns_base=()):
                         for k, v in namespaces.iteritems():
                             ns_parts = ns_base + (k,)
@@ -137,21 +140,21 @@ class Recipe(object):
                             if not os.path.isdir(dist.location):
                                 self.logger.info("(While processing egg %s) Package '%s' is zipped.  Skipping." % (project_name, package_name))
                                 continue
-                            
+
                             package_location = os.path.join(dist.location, package_name)
                             link_location = os.path.join(location, package_name)
                             # check for single python module
                             if not os.path.exists(package_location):
-                                package_location = os.path.join(dist.location, package_name+".py")
-                                link_location = os.path.join(location, package_name+".py")
+                                package_location = os.path.join(dist.location, package_name + ".py")
+                                link_location = os.path.join(location, package_name + ".py")
                             # check for native libs
                             # XXX - this should use native_libs from above
                             if not os.path.exists(package_location):
-                                package_location = os.path.join(dist.location, package_name+".so")
-                                link_location = os.path.join(location, package_name+".so")
+                                package_location = os.path.join(dist.location, package_name + ".so")
+                                link_location = os.path.join(location, package_name + ".so")
                             if not os.path.exists(package_location):
-                                package_location = os.path.join(dist.location, package_name+".dll")
-                                link_location = os.path.join(location, package_name+".dll")
+                                package_location = os.path.join(dist.location, package_name + ".dll")
+                                link_location = os.path.join(location, package_name + ".dll")
                             if not os.path.exists(package_location):
                                 self.logger.warn("Warning: (While processing egg %s) Package '%s' not found.  Skipping." % (project_name, package_name))
                                 continue
@@ -181,19 +184,19 @@ class Recipe(object):
                 else:
                     self.logger.warn("Warning: Invalid package: %s" % (self.name, package))
                     continue
-                
+
                 link_dir = os.path.join(location, link_name)
                 self._add_bacon(package_dir, link_dir)
-                            
+
         except:
             if os.path.exists(location):
                 rmtree(location)
             raise
-        
+
         return location
-    
+
     update = install
-    
+
     def _add_bacon(self, package_dir, target_dir):
         """ Link packages from package_dir into target_dir.  Recurse a level if target_dir/(package)
             already exists.
@@ -201,11 +204,11 @@ class Recipe(object):
         if os.path.exists(package_dir):
             if islink(target_dir):
                 self.logger.warn("Warning: (While processing package directory %s) Link already exists at %s.  Skipping." % (package_dir, target_dir))
-                return            
+                return
             elif not os.path.exists(target_dir):
                 if not makedirs(target_dir):
                     self.logger.warn("Warning: (While processing package directory %s) Link already exists at %s.  Skipping." % (package_dir, target_dir))
-                    return            
+                    return
             for package_name in [p for p in os.listdir(package_dir) if not p.startswith('.')]:
                 package_location = os.path.join(package_dir, package_name)
                 if not os.path.isdir(package_location):
@@ -220,7 +223,8 @@ class Recipe(object):
                     symlink(package_location, link_location)
         else:
             self.logger.warn("Warning: Product directory %s not found.  Skipping." % package_dir)
-        
+
+
 def uninstall(name, options):
     location = options.get('location')
     if os.path.exists(location):

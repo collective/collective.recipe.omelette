@@ -7,7 +7,6 @@ __docformat__ = 'restructuredtext'
 import os
 import re
 import unittest
-import shutil
 import sys
 import zc.buildout.tests
 import zc.buildout.testing
@@ -15,11 +14,12 @@ import zc.buildout.testing
 from zope.testing import doctest, renormalizing
 from collective.recipe.omelette.utils import rmtree
 
-optionflags =  (doctest.ELLIPSIS |
-                doctest.NORMALIZE_WHITESPACE |
-                doctest.REPORT_ONLY_FIRST_FAILURE)
+optionflags = (doctest.ELLIPSIS |
+               doctest.NORMALIZE_WHITESPACE |
+               doctest.REPORT_ONLY_FIRST_FAILURE)
 
 test_dir = os.path.abspath(os.path.dirname(__file__))
+
 
 def setUp(test):
     zc.buildout.testing.buildoutSetUp(test)
@@ -28,19 +28,22 @@ def setUp(test):
     zc.buildout.testing.install_develop('zc.recipe.egg', test)
     zc.buildout.testing.install_develop('collective.recipe.omelette', test)
 
+
 def tearDown(test):
     # safely remove junctions (on Windows) before the test teardown clobbers them with a shutil.rmtree
     rmtree(os.getcwd(), False)
-    
+
     zc.buildout.testing.buildoutTearDown(test)
-    
+
     # get rid of the extra product directory that may have been created
     product_dir = os.path.join(test_dir, 'Products', 'Product3')
     if os.path.exists(product_dir):
         rmtree(product_dir)
 
+
 def run(command, input=''):
     sys.stdout.write(zc.buildout.testing.system(command, input))
+
 
 def test_suite():
     suite = unittest.TestSuite((
@@ -58,7 +61,7 @@ def test_suite():
                         # second item, e.g.
                         # (re.compile('my-[rR]eg[eE]ps'), 'my-regexps')
                         zc.buildout.testing.normalize_path,
-                        
+
                         # don't count subversion dirs in ls() output
                         (re.compile(r'^\s*?d\s+.svn\s*?^', re.MULTILINE | re.DOTALL), ''),
                         ]),
