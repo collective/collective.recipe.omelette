@@ -5,6 +5,12 @@
 0.15 (2012-05-12)
 =================
 
+- Integration with Travis CI for running tests and pep8/pyflakes.
+  [hvelarde]
+
+- PEP 8/Pyflakes.
+  [hvelarde]
+
 - Optimized unlinking of junctioned dirs on Windows.
   [lck]
 
