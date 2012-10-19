@@ -1,0 +1,5 @@
+include *.rst *.txt
+
+recursive-include collective *
+
+global-exclude *.pyc
