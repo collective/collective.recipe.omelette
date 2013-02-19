@@ -27,26 +27,25 @@ Now we have everything linked together in one place, pointing at the real locati
 
     >>> import os
     >>> ls('parts')
-    d buildout
-    d omelette
+    d  omelette
     >>> cat('parts/omelette/omelettetests/ingredient.py')
     """Namespace packages can contain modules.  This is one such module."""
     >>> ls('parts/omelette/omelettetests/egg1')
-    - __init__.py
-    - in_egg1.txt
+    -  __init__.py
+    -  in_egg1.txt
     >>> ls('parts/omelette/subpackage')
-    - __init__.py
-    - in_subpackage.txt
+    -  __init__.py
+    -  in_subpackage.txt
     >>> ls('parts/omelette/Products')
-    d Product1
-    d Product2
-    - __init__.py
+    d  Product1
+    d  Product2
+    -  __init__.py
     >>> ls('parts/omelette/Products/Product1')
-    - __init__.py
-    - in_Product1.txt
+    -  __init__.py
+    -  in_Product1.txt
     >>> ls('parts/omelette/Products/Product2')
-    - __init__.py
-    - in_packaged_Product2.txt    
+    -  __init__.py
+    -  in_packaged_Product2.txt    
     
 Add a new product and re-run buildout to make sure it updates::
 
@@ -54,17 +53,17 @@ Add a new product and re-run buildout to make sure it updates::
     >>> 'omelette: Warning:' in system(buildout + ' -q')
     True
     >>> ls('parts/omelette/Products')
-    d Product1
-    d Product2
-    d Product3
-    - __init__.py
+    d  Product1
+    d  Product2
+    d  Product3
+    -  __init__.py
     
 Make sure we didn't clobber stuff that was linked from outside the omelette directory when we
 reinstalled (we needed to take extra care that this didn't happen when using junction on Windows!)::
 
     >>> ls('parts/omelette/omelettetests/egg1')
-    - __init__.py
-    - in_egg1.txt
+    -  __init__.py
+    -  in_egg1.txt
     
 Change the name of the part and make sure it updates, and do the same check as just above for not clobbering
 stuff accidentally::
@@ -84,11 +83,10 @@ stuff accidentally::
     >>> 'frittata: Warning:' in system(buildout + ' -q')
     True
     >>> ls('parts')
-    d buildout
-    d frittata
+    d  frittata
     >>> ls('parts/frittata/omelettetests/egg1')
-    - __init__.py
-    - in_egg1.txt
+    -  __init__.py
+    -  in_egg1.txt
     
 If trying to create a package that has already been symlinked to elsewhere, we should give a warning
 and skip it, rather than creating a symlink in the non-omelette location!::
@@ -108,9 +106,9 @@ and skip it, rather than creating a symlink in the non-omelette location!::
     omelette: Warning: (While processing package directory ...Products) Link already exists at ...Products.  Skipping.
     <BLANKLINE>
     >>> ls('%(test_dir)s/package/Products' % globals())
-    d Product1
-    d Product2
-    - __init__.py
+    d  Product1
+    d  Product2
+    -  __init__.py
 
 You can also override the location of the omelette if you want to put it
 somewhere else entirely::

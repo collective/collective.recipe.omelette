@@ -1,6 +1,8 @@
 0.16 (unreleased)
 =================
 
+- Fix tests to work with buildout 2.
+  [davisagli]
 
 0.15 (2012-05-12)
 =================

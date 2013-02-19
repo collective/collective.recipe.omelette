@@ -34,7 +34,7 @@ entry_points = {"zc.buildout": ["default = %s" % entry_point],
                 "zc.buildout.uninstall": ["default = %s" % uninstall_entry_point]}
 
 install_requires=['setuptools', 'zc.buildout', 'zc.recipe.egg']
-tests_require=['zope.testing', 'zc.buildout>=1.5.2', 'zc.recipe.egg']
+tests_require=['zope.testing', 'zc.buildout[test]', 'zc.recipe.egg']
 
 if sys.platform[:3].lower() == "win":
     install_requires += ['ntfsutils']
