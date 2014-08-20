@@ -83,7 +83,7 @@ packages
     List of Python packages whose contents should be included in the omelette.  Each line should be in the format
     [package_location] [target_directory], where package_location is the real location of the package, and
     target_directory is the (relative) location where the package should be inserted into the omelette (defaults
-    to top level).
+    to Products/).
 
 products
     (optional) List of old Zope 2-style products directories whose contents should be included in the omelette,
