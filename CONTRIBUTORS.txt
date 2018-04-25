@@ -12,3 +12,4 @@
 - Richard Mitchell [mitchell]
 - Roman Lacko [lck]
 - Hector Velarde [hvelarde]
+- Bert Vanderbauwhede [batlock666]

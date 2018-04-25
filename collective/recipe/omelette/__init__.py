@@ -97,14 +97,20 @@ class Recipe(object):
         try:
             requirements, ws = self.egg.working_set()
             for dist in ws.by_key.values():
+                def get_metadata_from_dist(filename):
+                    try:
+                        return list(dist._get_metadata(filename))
+                    except Exception:
+                        return []
+
                 project_name = dist.project_name
                 if project_name not in self.ignored_eggs:
                     namespaces = {}
-                    for line in dist._get_metadata('namespace_packages.txt'):
+                    for line in get_metadata_from_dist('namespace_packages.txt'):
                         ns = namespaces
                         for part in line.split('.'):
                             ns = ns.setdefault(part, {})
-                    top_level = sorted(list(dist._get_metadata('top_level.txt')))
+                    top_level = sorted(get_metadata_from_dist('top_level.txt'))
                     # native_libs = list(dist._get_metadata('native_libs.txt'))
 
                     def create_namespaces(namespaces, ns_base=()):
