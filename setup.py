@@ -37,7 +37,7 @@ install_requires=['setuptools', 'zc.buildout', 'zc.recipe.egg']
 tests_require=['zope.testing', 'zc.buildout[test]', 'zc.recipe.egg']
 
 if sys.platform[:3].lower() == "win":
-    install_requires += ['ntfsutils']
+    install_requires += ["ntfsutils;python_version<'3.0'"]
 
 extra = {}
 if sys.version_info >= (3,):

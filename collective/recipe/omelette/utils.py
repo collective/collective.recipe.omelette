@@ -2,11 +2,9 @@ import sys
 import os
 import shutil
 
-WIN32 = False
-if sys.platform[:3].lower() == "win":
-    WIN32 = True
+WIN32 = sys.platform[:3].lower() == "win"
 
-if WIN32:
+if WIN32 and not sys.version_info >= (3,):
     import ntfsutils.junction
 
     islink = ntfsutils.junction.isjunction
