@@ -91,14 +91,16 @@ products
     directory.)
 
 
-Windows support
-===============
+Windows support under Python 2.7
+================================
 
-Using omelette on Windows requires the junction_ utility to make links.  Junction.exe must be present in
+Using omelette on Windows with Python 2.7 requires the junction_ utility to make links.  Junction.exe must be present in
 your PATH when you run omelette.
 
 .. _junction: http://www.microsoft.com/technet/sysinternals/fileanddisk/junction.mspx
 
+
+Since Python 3.2 this is no longer needed.
 
 Using omelette with eggtractor
 ==============================
