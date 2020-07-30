@@ -3,7 +3,7 @@
 pep8_ignores = E501
 
 prerequisites:
-	sudo apt-get install -qq pep8 pyflakes
+	pip install pep8 pyflakes
 
 install: prerequisites
 

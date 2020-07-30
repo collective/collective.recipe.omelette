@@ -1,6 +1,9 @@
 0.16 (unreleased)
 =================
 
+- Fix to run under Windows with Python 3.
+  [nilshofer, jensens]
+
 - Fix tests to work with buildout 2.
   [davisagli]
 
