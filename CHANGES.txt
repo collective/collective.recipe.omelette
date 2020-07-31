@@ -1,8 +1,14 @@
-0.16 (unreleased)
+0.17 (unreleased)
 =================
 
 - Fix to run under Windows with Python 3.
   [nilshofer, jensens]
+
+0.16 (2013-02-18)
+=================
+
+- Fix packaging error.
+  [davisagli]
 
 - Fix tests to work with buildout 2.
   [davisagli]
@@ -61,11 +67,11 @@
   on Windows.
   [davisagli]
 
-- Made the tests compatible with a zc.buildout installed with Distribute 
+- Made the tests compatible with a zc.buildout installed with Distribute
   rather than Setuptools.
   [pumazi]
 
-- Handle OSErrors on symlink and warn the user. MacOSX can raise OSError due 
+- Handle OSErrors on symlink and warn the user. MacOSX can raise OSError due
   to an existing file here even if os.path.exists returns False.
   [MatthewWilkes]
 
@@ -108,7 +114,7 @@
 0.5 (2008-05-29)
 ================
 
-- Added uninstall entry point so that the omelette can be uninstalled on 
+- Added uninstall entry point so that the omelette can be uninstalled on
   Windows without clobbering things outside the omelette path.
   [optilude]
 
@@ -119,8 +125,8 @@
 - Ignore zipped eggs and fakezope2eggs-created links.
   [davisagli]
 
-- Added 'packages' option to allow merging non-eggified Python packages to 
-  any directory in the omelette (so that, for instance, the contents of 
+- Added 'packages' option to allow merging non-eggified Python packages to
+  any directory in the omelette (so that, for instance, the contents of
   Zope's lib/python can be merged flexibly).
   [davisagli]
 
