@@ -1,5 +1,8 @@
-0.16 (unreleased)
+0.16 (2013-02-18)
 =================
+
+- Fix packaging error.
+  [davisagli]
 
 - Fix tests to work with buildout 2.
   [davisagli]
