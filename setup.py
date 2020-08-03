@@ -19,10 +19,10 @@ long_description = (
     + '\n' +
     'Change history\n'
     '**************\n'
-    + '\n' + 
+    + '\n' +
     read('CHANGES.txt')
     + '\n' +
-    'Contributors\n' 
+    'Contributors\n'
     '************\n'
     + '\n' +
     read('CONTRIBUTORS.txt')
@@ -48,21 +48,20 @@ setup(name='collective.recipe.omelette',
       description="Creates a unified directory structure of installed packages, symlinking to the actual contents, in order to ease navigation.",
       long_description=long_description,
       classifiers=[
+        'Development Status :: 5 - Production/Stable',
         'Framework :: Buildout',
         'Intended Audience :: Developers',
         'Topic :: Software Development :: Build Tools',
         'Topic :: Software Development :: Libraries :: Python Modules',
         'License :: OSI Approved :: GNU General Public License (GPL)',
-        'Programming Language :: Python :: 2.4',
-        'Programming Language :: Python :: 2.5',
-        'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3.2',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
         ],
       keywords='buildout eggs namespace',
       author='David Glick, Groundwire',
       author_email='davidglick@groundwire.org',
-      url='http://pypi.python.org/pypi/collective.recipe.omelette',
+      url='https://github.com/collective/collective.recipe.omelette',
       license='GPL',
       packages=find_packages(exclude=['ez_setup']),
       namespace_packages=['collective', 'collective.recipe'],
