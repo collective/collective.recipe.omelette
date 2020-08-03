@@ -19,6 +19,9 @@
 - Fix tests to work with buildout 2.
   [davisagli]
 
+- Fix handling of zipped eggs (issue #7).
+  [batlock666]
+
 0.15 (2012-05-12)
 =================
 
