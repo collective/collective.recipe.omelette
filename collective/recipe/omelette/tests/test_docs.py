@@ -10,8 +10,10 @@ import unittest
 import sys
 import zc.buildout.tests
 import zc.buildout.testing
+import doctest
 
-from zope.testing import doctest, renormalizing
+from zope.testing import doctestcase
+from zope.testing import renormalizing
 from collective.recipe.omelette.utils import rmtree
 
 optionflags = (doctest.ELLIPSIS |
@@ -69,6 +71,18 @@ def test_suite():
                 ),
             ))
     return suite
+
+
+class MyTest(unittest.TestCase):
+
+    def setUp(self):
+        setUp(self)
+
+    def tearDown(self):
+        tearDown(self)
+
+    test1 = doctestcase.file('omelette.txt', optionflags=doctest.ELLIPSIS)
+
 
 if __name__ == '__main__':
     unittest.main(defaultTest='test_suite')

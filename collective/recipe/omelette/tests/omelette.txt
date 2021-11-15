@@ -133,13 +133,13 @@ You can ignore a particular package::
     >>> write('buildout.cfg',
     ... """
     ... [buildout]
-    ... eggs = setuptools
+    ... eggs = setuptools 
     ... parts = omelette
     ...
     ... [omelette]
     ... recipe = collective.recipe.omelette
     ... eggs = ${buildout:eggs}
-    ... ignores = setuptools, distribute
+    ... ignores = setuptools
     ... """)
     >>> run(buildout + ' -q')
     >>> os.path.exists('parts/omelette/setuptools')
