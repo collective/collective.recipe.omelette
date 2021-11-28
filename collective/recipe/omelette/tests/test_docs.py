@@ -11,7 +11,10 @@ import sys
 import zc.buildout.tests
 import zc.buildout.testing
 
-from zope.testing import doctest, renormalizing
+import doctest
+
+from zope.testing import renormalizing
+
 from collective.recipe.omelette.utils import rmtree
 
 optionflags = (doctest.ELLIPSIS |
@@ -69,6 +72,7 @@ def test_suite():
                 ),
             ))
     return suite
+
 
 if __name__ == '__main__':
     unittest.main(defaultTest='test_suite')

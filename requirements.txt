@@ -1,0 +1,7 @@
+pep8 
+pyflakes
+tox
+pytest
+zope.testing
+manuel
+-e .[test]

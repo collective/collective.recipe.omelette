@@ -34,14 +34,10 @@ entry_points = {"zc.buildout": ["default = %s" % entry_point],
                 "zc.buildout.uninstall": ["default = %s" % uninstall_entry_point]}
 
 install_requires=['setuptools', 'zc.buildout', 'zc.recipe.egg']
-tests_require=['zope.testing', 'zc.buildout[test]', 'zc.recipe.egg']
+tests_require=['zope.testing', 'zc.buildout[test]', 'zc.recipe.egg', 'pytest']
 
 if sys.platform[:3].lower() == "win":
     install_requires += ["ntfsutils;python_version<'3.0'"]
-
-extra = {}
-if sys.version_info >= (3,):
-    extra['use_2to3'] = True
 
 setup(name='collective.recipe.omelette',
       version=version,
@@ -72,5 +68,4 @@ setup(name='collective.recipe.omelette',
       extras_require=dict(tests=tests_require),
       test_suite = 'collective.recipe.omelette.tests.test_docs.test_suite',
       entry_points=entry_points,
-      **extra
       )

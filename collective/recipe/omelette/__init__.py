@@ -108,7 +108,7 @@ class Recipe(object):
                     # native_libs = list(dist._get_metadata('native_libs.txt'))
 
                     def create_namespaces(namespaces, ns_base=()):
-                        for k, v in namespaces.iteritems():
+                        for k, v in namespaces.items():
                             ns_parts = ns_base + (k,)
                             link_dir = os.path.join(location, *ns_parts)
                             if not os.path.exists(link_dir):
@@ -164,7 +164,7 @@ class Recipe(object):
                                 continue
                             try:
                                 symlink(package_location, link_location)
-                            except OSError, e:
+                            except OSError as e:
                                 self.logger.warn("While processing egg %s) symlink fails (%s, %s). Skipping.\nOriginal Exception:\n%s" % (project_name, package_location, link_location, str(e)))
                             # except:
                             #    # TODO: clearify if recipe should fail on error or resume by skipping.
@@ -182,7 +182,7 @@ class Recipe(object):
                     link_name = package[1]
                     package_dir = package[0]
                 else:
-                    self.logger.warn("Warning: Invalid package: %s" % (self.name, package))
+                    self.logger.warn("Warning: Invalid package: %s %s" % (self.name, package))
                     continue
 
                 link_dir = os.path.join(location, link_name)
