@@ -4,4 +4,4 @@ tox
 pytest
 zope.testing
 manuel
--e .[test]
+-e .[tests]
