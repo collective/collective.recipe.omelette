@@ -5,7 +5,7 @@
 - mordernize to python3 code [goschtl]
 - update to new zope.testing [goschtl]
 - use pytest and tox [goschtl]
-
+- Note: tested on Python 2.7 and 3.6-3.10.
 
 1.0.0 (2020-08-03)
 ==================
