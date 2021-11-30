@@ -21,6 +21,7 @@ Install a fancy omelette with an egg, some packages, and a product::
     Installing omelette.
     ...
     omelette: Warning: (While processing package ...Product1) Link already exists.  Skipping.
+    ...
     <BLANKLINE>
 
 Now we have everything linked together in one place, pointing at the real locations::
@@ -139,7 +140,7 @@ You can ignore a particular package::
     ... [omelette]
     ... recipe = collective.recipe.omelette
     ... eggs = ${buildout:eggs}
-    ... ignores = setuptools, distribute
+    ... ignores = setuptools
     ... """)
     >>> run(buildout + ' -q')
     >>> os.path.exists('parts/omelette/setuptools')

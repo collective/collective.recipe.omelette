@@ -2,7 +2,7 @@
 """
 Doctest runner for 'collective.recipe.omelette'.
 """
-__docformat__ = 'restructuredtext'
+__docformat__ = "restructuredtext"
 
 import os
 import re
@@ -11,12 +11,15 @@ import sys
 import zc.buildout.tests
 import zc.buildout.testing
 
-from zope.testing import doctest, renormalizing
+import doctest
+
+from zope.testing import renormalizing
+
 from collective.recipe.omelette.utils import rmtree
 
-optionflags = (doctest.ELLIPSIS |
-               doctest.NORMALIZE_WHITESPACE |
-               doctest.REPORT_ONLY_FIRST_FAILURE)
+optionflags = (
+    doctest.ELLIPSIS | doctest.NORMALIZE_WHITESPACE | doctest.REPORT_ONLY_FIRST_FAILURE
+)
 
 test_dir = os.path.abspath(os.path.dirname(__file__))
 
@@ -25,8 +28,8 @@ def setUp(test):
     zc.buildout.testing.buildoutSetUp(test)
 
     # Install the recipe (and dependencies) in develop mode
-    zc.buildout.testing.install_develop('zc.recipe.egg', test)
-    zc.buildout.testing.install_develop('collective.recipe.omelette', test)
+    zc.buildout.testing.install_develop("zc.recipe.egg", test)
+    zc.buildout.testing.install_develop("collective.recipe.omelette", test)
 
 
 def tearDown(test):
@@ -36,24 +39,26 @@ def tearDown(test):
     zc.buildout.testing.buildoutTearDown(test)
 
     # get rid of the extra product directory that may have been created
-    product_dir = os.path.join(test_dir, 'Products', 'Product3')
+    product_dir = os.path.join(test_dir, "Products", "Product3")
     if os.path.exists(product_dir):
         rmtree(product_dir)
 
 
-def run(command, input=''):
+def run(command, input=""):
     sys.stdout.write(zc.buildout.testing.system(command, input))
 
 
 def test_suite():
-    suite = unittest.TestSuite((
+    suite = unittest.TestSuite(
+        (
             doctest.DocFileSuite(
-                'omelette.txt',
+                "omelette.txt",
                 globs=globals(),
                 setUp=setUp,
                 tearDown=tearDown,
                 optionflags=optionflags,
-                checker=renormalizing.RENormalizing([
+                checker=renormalizing.RENormalizing(
+                    [
                         # If want to clean up the doctest output you
                         # can register additional regexp normalizers
                         # here. The format is a two-tuple with the RE
@@ -62,13 +67,18 @@ def test_suite():
                         # (re.compile('my-[rR]eg[eE]ps'), 'my-regexps')
                         zc.buildout.testing.normalize_path,
                         zc.buildout.testing.not_found,
-
                         # don't count subversion dirs in ls() output
-                        (re.compile(r'^\s*?d\s+.svn\s*?^', re.MULTILINE | re.DOTALL), ''),
-                        ]),
+                        (
+                            re.compile(r"^\s*?d\s+.svn\s*?^", re.MULTILINE | re.DOTALL),
+                            "",
+                        ),
+                    ]
                 ),
-            ))
+            ),
+        )
+    )
     return suite
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='test_suite')
+
+if __name__ == "__main__":
+    unittest.main(defaultTest="test_suite")

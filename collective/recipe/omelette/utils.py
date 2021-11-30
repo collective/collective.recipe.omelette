@@ -33,6 +33,7 @@ if WIN32 and not sys.version_info >= (3,):
         if nonlinks:
             shutil.rmtree(location)
 
+
 else:
     symlink = os.symlink
     islink = os.path.islink

@@ -1,7 +1,10 @@
 1.0.1 (unreleased)
 ==================
 
-- Nothing changed yet.
+- Fix 2to3 old setuptools hook [goschtl]
+- mordernize to python3 code [goschtl]
+- update to new zope.testing [goschtl]
+- use pytest and tox [goschtl]
 
 
 1.0.0 (2020-08-03)
