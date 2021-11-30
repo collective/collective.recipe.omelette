@@ -49,19 +49,19 @@ packages from Zope's lib/python. It is important that omelette come last if you 
     parts =
         ...(other parts)...
         omelette
-        
+
     ...
-        
+
     [omelette]
     recipe = collective.recipe.omelette
     eggs = ${instance:eggs}
     products = ${instance:products}
     packages = ${zope2:location}/lib/python ./
-    
+
 (Note: If your instance part lacks a 'products' variable, omit it from the omelette section as well, or
 the omelette will silently fail to build.)
 
-    
+
 Supported options
 =================
 
@@ -129,9 +129,9 @@ You can tell buildout to unzip all eggs by setting the unzip = true flag in the 
 Running the tests
 =================
 
-Just grab the recipe from svn and run::
+Just grab the recipe from git and run::
 
-    python setup.py test
+    tox -p auto
 
 Known issue: The tests run buildout in a separate process, so it's currently
 impossible to put a pdb breakpoint in the recipe and debug during the test.
@@ -142,5 +142,5 @@ part and includes collective.recipe.omelette as a development egg.
 Reporting bugs or asking questions
 ==================================
 
-There is a shared bugtracker and help desk on Launchpad:
-https://bugs.launchpad.net/collective.buildout/
+There is a bugtracker on gitHub:
+https://github.com/collective/collective.recipe.omelette/issues
