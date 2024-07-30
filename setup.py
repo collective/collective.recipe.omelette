@@ -62,8 +62,6 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=install_requires,
-    tests_require=tests_require,
     extras_require=dict(tests=tests_require),
-    test_suite="collective.recipe.omelette.tests.test_docs.test_suite",
     entry_points=entry_points,
 )
