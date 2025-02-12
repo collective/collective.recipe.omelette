@@ -1,10 +1,12 @@
-# -*- coding: utf-8 -*-
 """
 This module contains the tool of collective.recipe.omelette
 """
+
+from setuptools import find_packages
+from setuptools import setup
+
 import os
 import sys
-from setuptools import setup, find_packages
 
 
 def read(*rnames):

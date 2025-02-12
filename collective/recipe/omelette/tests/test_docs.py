@@ -1,21 +1,20 @@
-# -*- coding: utf-8 -*-
 """
 Doctest runner for 'collective.recipe.omelette'.
 """
+
 __docformat__ = "restructuredtext"
 
-import os
-import re
-import unittest
-import sys
-import zc.buildout.tests
-import zc.buildout.testing
-
-import doctest
-
+from collective.recipe.omelette.utils import rmtree
 from zope.testing import renormalizing
 
-from collective.recipe.omelette.utils import rmtree
+import doctest
+import os
+import re
+import sys
+import unittest
+import zc.buildout.testing
+import zc.buildout.tests
+
 
 optionflags = (
     doctest.ELLIPSIS | doctest.NORMALIZE_WHITESPACE | doctest.REPORT_ONLY_FIRST_FAILURE

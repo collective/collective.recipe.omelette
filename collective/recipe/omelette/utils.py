@@ -1,6 +1,7 @@
-import sys
 import os
 import shutil
+import sys
+
 
 WIN32 = sys.platform[:3].lower() == "win"
 
@@ -32,7 +33,6 @@ if WIN32 and not sys.version_info >= (3,):
         # Then get rid of everything else
         if nonlinks:
             shutil.rmtree(location)
-
 
 else:
     symlink = os.symlink
