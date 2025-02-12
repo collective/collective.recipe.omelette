@@ -85,7 +85,9 @@ class Recipe:
         products = options.get("products", "").split()
         self.packages = [(p, "Products") for p in products]
         self.packages += [
-            l.split() for l in options.get("packages", "").splitlines() if l.strip()
+            line.split()
+            for line in options.get("packages", "").splitlines()
+            if line.strip()
         ]
 
     def install(self):
@@ -237,7 +239,7 @@ class Recipe:
                 link_dir = os.path.join(location, link_name)
                 self._add_bacon(package_dir, link_dir)
 
-        except:
+        except Exception:
             if os.path.exists(location):
                 rmtree(location)
             raise
