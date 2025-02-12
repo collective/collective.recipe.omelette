@@ -29,7 +29,7 @@ entry_points = {
 }
 
 install_requires = ["setuptools", "zc.buildout", "zc.recipe.egg"]
-tests_require = ["zope.testing", "zc.buildout[test]", "zc.recipe.egg", "pytest"]
+tests_require = ["zope.testing", "zc.buildout[test]", "zc.recipe.egg"]
 
 setup(
     name="collective.recipe.omelette",
