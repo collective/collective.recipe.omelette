@@ -60,6 +60,11 @@ setup(
     zip_safe=False,
     install_requires=install_requires,
     python_requires=">=3.9",
-    extras_require=dict(tests=tests_require),
+    extras_require=dict(
+        test=tests_require,
+        # Originally we only had 'tests' as entrypoint,
+        # but we prefer 'test'.
+        tests=tests_require,
+    ),
     entry_points=entry_points,
 )
