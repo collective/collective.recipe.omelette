@@ -17,16 +17,17 @@ This recipe creates an easily navigable directory structure linking to the
 contents of a lists of eggs.  See README.txt for details.
 """
 
-from collective.recipe.omelette.utils import islink
-from collective.recipe.omelette.utils import rmtree
-from collective.recipe.omelette.utils import symlink
-from collective.recipe.omelette.utils import WIN32
+from os import symlink
+from os.path import islink
+from shutil import rmtree
 
 import logging
 import os
+import sys
 import zc.recipe.egg
 
 
+WIN32 = sys.platform[:3].lower() == "win"
 NAMESPACE_STANZA = """# See http://peak.telecommunity.com/DevCenter/setuptools#namespace-packages
 try:
     __import__('pkg_resources').declare_namespace(__name__)

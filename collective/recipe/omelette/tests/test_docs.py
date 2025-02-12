@@ -4,7 +4,7 @@ Doctest runner for 'collective.recipe.omelette'.
 
 __docformat__ = "restructuredtext"
 
-from collective.recipe.omelette.utils import rmtree
+from shutil import rmtree
 from zope.testing import renormalizing
 
 import doctest
