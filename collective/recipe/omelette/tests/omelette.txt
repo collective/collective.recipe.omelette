@@ -46,8 +46,8 @@ Now we have everything linked together in one place, pointing at the real locati
     -  in_Product1.txt
     >>> ls('parts/omelette/Products/Product2')
     -  __init__.py
-    -  in_packaged_Product2.txt    
-    
+    -  in_packaged_Product2.txt
+
 Add a new product and re-run buildout to make sure it updates::
 
     >>> mkdir('%(test_dir)s/Products/Product3' % globals())
@@ -58,14 +58,14 @@ Add a new product and re-run buildout to make sure it updates::
     d  Product2
     d  Product3
     -  __init__.py
-    
+
 Make sure we didn't clobber stuff that was linked from outside the omelette directory when we
 reinstalled (we needed to take extra care that this didn't happen when using junction on Windows!)::
 
     >>> ls('parts/omelette/omelettetests/egg1')
     -  __init__.py
     -  in_egg1.txt
-    
+
 Change the name of the part and make sure it updates, and do the same check as just above for not clobbering
 stuff accidentally::
 
@@ -88,7 +88,7 @@ stuff accidentally::
     >>> ls('parts/frittata/omelettetests/egg1')
     -  __init__.py
     -  in_egg1.txt
-    
+
 If trying to create a package that has already been symlinked to elsewhere, we should give a warning
 and skip it, rather than creating a symlink in the non-omelette location!::
 
