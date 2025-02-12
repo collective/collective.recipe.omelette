@@ -253,43 +253,44 @@ class Recipe:
         """Link packages from package_dir into target_dir.  Recurse a level if target_dir/(package)
         already exists.
         """
-        if os.path.exists(package_dir):
-            if islink(target_dir):
-                self.logger.warning(
-                    "Warning: (While processing package directory %s) Link already exists at %s.  Skipping.",
-                    package_dir,
-                    target_dir,
-                )
-                return
-            elif not os.path.exists(target_dir):
-                if not makedirs(target_dir):
-                    self.logger.warning(
-                        "Warning: (While processing package directory %s) Link already exists at %s.  Skipping.",
-                        package_dir,
-                        target_dir,
-                    )
-                    return
-            for package_name in [
-                p for p in os.listdir(package_dir) if not p.startswith(".")
-            ]:
-                package_location = os.path.join(package_dir, package_name)
-                if not os.path.isdir(package_location):
-                    # skip ordinary files
-                    continue
-                link_location = os.path.join(target_dir, package_name)
-                if islink(link_location):
-                    self.logger.warning(
-                        "Warning: (While processing package %s) Link already exists.  Skipping.",
-                        package_location,
-                    )
-                elif os.path.isdir(link_location):
-                    self._add_bacon(package_location, link_location)
-                else:
-                    symlink(package_location, link_location)
-        else:
+        if not os.path.exists(package_dir):
             self.logger.warning(
                 "Warning: Product directory %s not found.  Skipping.", package_dir
             )
+
+        if islink(target_dir):
+            self.logger.warning(
+                "Warning: (While processing package directory %s) Link already exists at %s.  Skipping.",
+                package_dir,
+                target_dir,
+            )
+            return
+
+        if not os.path.exists(target_dir) and not makedirs(target_dir):
+            self.logger.warning(
+                "Warning: (While processing package directory %s) Link already exists at %s.  Skipping.",
+                package_dir,
+                target_dir,
+            )
+            return
+
+        for package_name in [
+            p for p in os.listdir(package_dir) if not p.startswith(".")
+        ]:
+            package_location = os.path.join(package_dir, package_name)
+            if not os.path.isdir(package_location):
+                # skip ordinary files
+                continue
+            link_location = os.path.join(target_dir, package_name)
+            if islink(link_location):
+                self.logger.warning(
+                    "Warning: (While processing package %s) Link already exists.  Skipping.",
+                    package_location,
+                )
+            elif os.path.isdir(link_location):
+                self._add_bacon(package_location, link_location)
+            else:
+                symlink(package_location, link_location)
 
 
 def uninstall(name, options):
