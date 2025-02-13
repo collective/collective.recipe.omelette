@@ -28,18 +28,12 @@ import zc.recipe.egg
 
 
 WIN32 = sys.platform[:3].lower() == "win"
-NAMESPACE_STANZA = """# See http://peak.telecommunity.com/DevCenter/setuptools#namespace-packages
-try:
-    __import__('pkg_resources').declare_namespace(__name__)
-except ImportError:
-    from pkgutil import extend_path
-    __path__ = extend_path(__path__, __name__)
-"""
 
 
-def makedirs(target, is_namespace=False):
-    """Similar to os.makedirs, but adds __init__.py files as it goes.  Returns a boolean
-    indicating success.
+def makedirs(target):
+    """Similar to os.makedirs, but stops when it encounters a link.
+
+    Returns a boolean indicating success or failure.
     """
     drive, path = os.path.splitdrive(target)
     parts = path.split(os.path.sep)
@@ -50,14 +44,6 @@ def makedirs(target, is_namespace=False):
             return False
         if not os.path.exists(current):
             os.mkdir(current)
-            init_filename = os.path.join(current, "__init__.py")
-            if not os.path.exists(init_filename):
-                init_file = open(init_filename, "w")
-                if is_namespace:
-                    init_file.write(NAMESPACE_STANZA)
-                else:
-                    init_file.write("# mushroom")
-                init_file.close()
     return True
 
 
@@ -107,7 +93,7 @@ class Recipe:
                     ns_parts = ns_base + (k,)
                     link_dir = os.path.join(location, *ns_parts)
                     if not os.path.exists(link_dir):
-                        if not makedirs(link_dir, is_namespace=True):
+                        if not makedirs(link_dir):
                             self.logger.warning(
                                 "Warning: (While processing egg %s) Could not create namespace directory (%s).  Skipping.",
                                 project_name,
