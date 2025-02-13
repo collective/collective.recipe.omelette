@@ -33,17 +33,16 @@ symlinks to the egg contents.  So, instead of this...::
 
 
 You can also include non-eggified python packages in the omelette.  This makes it simple to
-get a single path that you can add to your PYTHONPATH for use with specialized python environments
+get a single path that you can add to your ``PYTHONPATH`` for use with specialized python environments
 like when running under mod_wsgi or PyDev.
 
 
 Typical usage with Zope and Plone
 =================================
 
-For a typical Plone buildout, with a part named "instance" that uses the plone.recipe.zope2instance recipe and a
-part named "zope2" that uses the plone.recipe.zope2install recipe, the following additions to buildout.cfg will
-result in an omelette including all eggs and old-style Products used by the Zope instance as well as all of the
-packages from Zope's lib/python. It is important that omelette come last if you want it to find everything::
+For a typical Plone buildout, with a part named ``instance`` that uses the
+``plone.recipe.zope2instance`` recipe, the following additions to ``buildout.cfg`` will
+result in an omelette including all eggs used by the Zope instance::
 
     [buildout]
     parts =
@@ -55,11 +54,6 @@ packages from Zope's lib/python. It is important that omelette come last if you 
     [omelette]
     recipe = collective.recipe.omelette
     eggs = ${instance:eggs}
-    products = ${instance:products}
-    packages = ${zope2:location}/lib/python ./
-
-(Note: If your instance part lacks a 'products' variable, omit it from the omelette section as well, or
-the omelette will silently fail to build.)
 
 
 Supported options
@@ -81,36 +75,15 @@ ignores
 
 packages
     List of Python packages whose contents should be included in the omelette.  Each line should be in the format
-    [package_location] [target_directory], where package_location is the real location of the package, and
+    [packages_location] [target_directory], where packages_location is the real location of the packages, and
     target_directory is the (relative) location where the package should be inserted into the omelette (defaults
     to Products/).
+    Example: ``packages = ${buildout:directory}/lib/python3.13/site-packages ./``
 
 products
     (optional) List of old Zope 2-style products directories whose contents should be included in the omelette,
     one per line.  (For backwards-compatibility -- equivalent to using packages with Products as the target
     directory.)
-
-
-Windows support under Python 2.7
-================================
-
-Using omelette on Windows with Python 2.7 requires the junction_ utility to make links.  Junction.exe must be present in
-your PATH when you run omelette.
-
-.. _junction: http://www.microsoft.com/technet/sysinternals/fileanddisk/junction.mspx
-
-
-Since Python 3.2 this is no longer needed.
-
-Using omelette with eggtractor
-==============================
-
-Mustapha Benali's buildout.eggtractor_ provides a handy way for buildout to automatically find
-development eggs without having to edit buildout.cfg.  However, if you use it, the omelette recipe
-won't be aware of your eggs unless you a) manually add them to the omelette part's eggs option, or
-b) add the name of the omelette part to the buildout part's tractor-target-parts option.
-
-.. _buildout.eggtractor: http://pypi.python.org/pypi/buildout.eggtractor/
 
 
 Using omelette with zipped eggs
