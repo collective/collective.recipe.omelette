@@ -85,6 +85,11 @@ class Recipe:
                 ns = namespaces
                 for part in line.split("."):
                     ns = ns.setdefault(part, {})
+            if "." in project_name and not namespaces:
+                ns = namespaces
+                for part in project_name.split(".")[:-1]:
+                    ns = ns.setdefault(part, {})
+
             top_level = sorted(list(dist._get_metadata("top_level.txt")))
             # native_libs = list(dist._get_metadata('native_libs.txt'))
 
@@ -100,6 +105,11 @@ class Recipe:
                                 link_dir,
                             )
                             continue
+                    if islink(link_dir):
+                        # For example, if you have packages one.two and one.three,
+                        # here you may already have a link to
+                        # .../lib/python3.12/site-packages/one/
+                        return
                     if len(v) > 0:
                         create_namespaces(v, ns_parts)
                     egg_ns_dir = os.path.join(dist.location, *ns_parts)

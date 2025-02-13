@@ -16,6 +16,11 @@ Breaking changes:
 - Require at least Python 3.9.
   [maurits]
 
+Bug fixes:
+
+- Fix handling checkouts of native namespace packages.
+  [maurits]
+
 
 1.1.1 (2025-02-12)
 ==================
