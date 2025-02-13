@@ -12,8 +12,9 @@ Install a fancy omelette with an egg, some packages, and a product::
     ... [omelette]
     ... recipe = collective.recipe.omelette
     ... eggs = egg.with.name.different.from.contents
-    ... packages = %(test_dir)s/package .
-    ... products = %(test_dir)s/Products
+    ... packages =
+    ...     %(test_dir)s/Products Products
+    ...     %(test_dir)s/package .
     ... """ % globals())
     >>> run(buildout + ' -v')
     Installing...
@@ -78,8 +79,9 @@ stuff accidentally::
     ... [frittata]
     ... recipe = collective.recipe.omelette
     ... eggs = egg.with.name.different.from.contents
-    ... packages = %(test_dir)s/package .
-    ... products = %(test_dir)s/Products
+    ... packages =
+    ...     %(test_dir)s/Products Products
+    ...     %(test_dir)s/package .
     ... """ % globals())
     >>> 'frittata: Warning:' in system(buildout + ' -q')
     True

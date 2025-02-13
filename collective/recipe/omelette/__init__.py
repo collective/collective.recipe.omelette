@@ -53,7 +53,7 @@ def makedirs(target, is_namespace=False):
             init_filename = os.path.join(current, "__init__.py")
             if not os.path.exists(init_filename):
                 init_file = open(init_filename, "w")
-                if is_namespace or part == "Products":
+                if is_namespace:
                     init_file.write(NAMESPACE_STANZA)
                 else:
                     init_file.write("# mushroom")
@@ -82,10 +82,7 @@ class Recipe:
             develop_eggs = [dev_egg[:-9] for dev_egg in develop_eggs]
         ignores = options.get("ignores", "").split()
         self.ignored_eggs = develop_eggs + ignores
-
-        products = options.get("products", "").split()
-        self.packages = [(p, "Products") for p in products]
-        self.packages += [
+        self.packages = [
             line.split()
             for line in options.get("packages", "").splitlines()
             if line.strip()
@@ -208,7 +205,7 @@ class Recipe:
 
         for package in self.packages:
             if len(package) == 1:
-                link_name = "Products/"
+                link_name = "./"
                 package_dir = package[0]
             elif len(package) == 2:
                 link_name = package[1]

@@ -76,14 +76,9 @@ ignores
 packages
     List of Python packages whose contents should be included in the omelette.  Each line should be in the format
     [packages_location] [target_directory], where packages_location is the real location of the packages, and
-    target_directory is the (relative) location where the package should be inserted into the omelette (defaults
-    to Products/).
-    Example: ``packages = ${buildout:directory}/lib/python3.13/site-packages ./``
-
-products
-    (optional) List of old Zope 2-style products directories whose contents should be included in the omelette,
-    one per line.  (For backwards-compatibility -- equivalent to using packages with Products as the target
-    directory.)
+    target_directory is the optional (relative) location where the package should be inserted into the omelette (defaults
+    to ``./``, so directly in the omelette part).
+    Example: ``packages = ${buildout:directory}/lib/python3.13/site-packages``
 
 
 Using omelette with zipped eggs

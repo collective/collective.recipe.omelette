@@ -1,6 +1,13 @@
 2.0.0 (unreleased)
 ==================
 
+Breaking changes:
+
+- Remove ``products`` recipe option and special handling of ``Products`` namespace.
+  Zope 4 and higher no longer have the concept of a products directory.
+  You can still use ``packages = path/to/products_dir Products`` if you need something similar.
+  [maurits]
+
 - Require at least Python 3.9.
   [maurits]
 
