@@ -1,7 +1,8 @@
-1.1.2 (unreleased)
+2.0.0 (unreleased)
 ==================
 
-- Nothing changed yet.
+- Require at least Python 3.9.
+  [maurits]
 
 
 1.1.1 (2025-02-12)

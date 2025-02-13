@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 ##############################################################################
 #
 # Copyright (c) 2008 David Glick.
@@ -19,11 +17,17 @@ This recipe creates an easily navigable directory structure linking to the
 contents of a lists of eggs.  See README.txt for details.
 """
 
-import os
-import logging
-import zc.recipe.egg
-from collective.recipe.omelette.utils import symlink, islink, rmtree, WIN32
+from os import symlink
+from os.path import islink
+from shutil import rmtree
 
+import logging
+import os
+import sys
+import zc.recipe.egg
+
+
+WIN32 = sys.platform[:3].lower() == "win"
 NAMESPACE_STANZA = """# See http://peak.telecommunity.com/DevCenter/setuptools#namespace-packages
 try:
     __import__('pkg_resources').declare_namespace(__name__)
@@ -34,8 +38,8 @@ except ImportError:
 
 
 def makedirs(target, is_namespace=False):
-    """ Similar to os.makedirs, but adds __init__.py files as it goes.  Returns a boolean
-        indicating success.
+    """Similar to os.makedirs, but adds __init__.py files as it goes.  Returns a boolean
+    indicating success.
     """
     drive, path = os.path.splitdrive(target)
     parts = path.split(os.path.sep)
@@ -57,7 +61,7 @@ def makedirs(target, is_namespace=False):
     return True
 
 
-class Recipe(object):
+class Recipe:
     """zc.buildout recipe"""
 
     def __init__(self, buildout, name, options):
@@ -67,7 +71,8 @@ class Recipe(object):
 
         if "location" not in options:
             options["location"] = os.path.join(
-                buildout["buildout"]["parts-directory"], self.name,
+                buildout["buildout"]["parts-directory"],
+                self.name,
             )
 
         ignore_develop = options.get("ignore-develop", "").lower()
@@ -81,7 +86,9 @@ class Recipe(object):
         products = options.get("products", "").split()
         self.packages = [(p, "Products") for p in products]
         self.packages += [
-            l.split() for l in options.get("packages", "").splitlines() if l.strip()
+            line.split()
+            for line in options.get("packages", "").splitlines()
+            if line.strip()
         ]
 
     def install(self):
@@ -111,9 +118,10 @@ class Recipe(object):
                             link_dir = os.path.join(location, *ns_parts)
                             if not os.path.exists(link_dir):
                                 if not makedirs(link_dir, is_namespace=True):
-                                    self.logger.warn(
-                                        "Warning: (While processing egg %s) Could not create namespace directory (%s).  Skipping."
-                                        % (project_name, link_dir)
+                                    self.logger.warning(
+                                        "Warning: (While processing egg %s) Could not create namespace directory (%s).  Skipping.",
+                                        project_name,
+                                        link_dir,
                                     )
                                     continue
                             if len(v) > 0:
@@ -121,8 +129,9 @@ class Recipe(object):
                             egg_ns_dir = os.path.join(dist.location, *ns_parts)
                             if not os.path.isdir(egg_ns_dir):
                                 self.logger.info(
-                                    "(While processing egg %s) Package '%s' is zipped.  Skipping."
-                                    % (project_name, os.path.sep.join(ns_parts))
+                                    "(While processing egg %s) Package '%s' is zipped.  Skipping.",
+                                    project_name,
+                                    os.path.sep.join(ns_parts),
                                 )
                                 continue
                             dirs = os.listdir(egg_ns_dir)
@@ -144,8 +153,9 @@ class Recipe(object):
                         else:
                             if not os.path.isdir(dist.location):
                                 self.logger.info(
-                                    "(While processing egg %s) Package '%s' is zipped.  Skipping."
-                                    % (project_name, package_name)
+                                    "(While processing egg %s) Package '%s' is zipped.  Skipping.",
+                                    project_name,
+                                    package_name,
                                 )
                                 continue
 
@@ -176,38 +186,41 @@ class Recipe(object):
                                     location, package_name + ".dll"
                                 )
                             if not os.path.exists(package_location):
-                                self.logger.warn(
-                                    "Warning: (While processing egg %s) Package '%s' not found.  Skipping."
-                                    % (project_name, package_name)
+                                self.logger.warning(
+                                    "Warning: (While processing egg %s) Package '%s' not found.  Skipping.",
+                                    project_name,
+                                    package_name,
                                 )
                                 continue
                         if not os.path.exists(link_location):
                             if WIN32 and not os.path.isdir(package_location):
-                                self.logger.warn(
-                                    "Warning: (While processing egg %s) Can't link files on Windows (%s -> %s).  Skipping."
-                                    % (project_name, package_location, link_location)
+                                self.logger.warning(
+                                    "Warning: (While processing egg %s) Can't link files on Windows (%s -> %s).  Skipping.",
+                                    project_name,
+                                    package_location,
+                                    link_location,
                                 )
                                 continue
                             try:
                                 symlink(package_location, link_location)
                             except OSError as e:
-                                self.logger.warn(
-                                    "While processing egg %s) symlink fails (%s, %s). Skipping.\nOriginal Exception:\n%s"
-                                    % (
-                                        project_name,
-                                        package_location,
-                                        link_location,
-                                        str(e),
-                                    )
+                                self.logger.warning(
+                                    "While processing egg (%s) symlink fails (%s, %s). Skipping.\nOriginal Exception:\n%s",
+                                    project_name,
+                                    package_location,
+                                    link_location,
+                                    str(e),
                                 )
                             # except:
-                            #    # TODO: clearify if recipe should fail on error or resume by skipping.
+                            #    # TODO: clarify if recipe should fail on error or resume by skipping.
                             #    # Possible solution, add a recipe option, stop_on_fail that will quit buildout on general exceptions
-                            #    self.logger.warn("Unexpected error :\nWhile processing egg %s) symlink fails (%s, %s). Skipping.\nOriginal Exception:\n%s" % (project_name, package_location, link_location, sys.exc_info()[0]))
+                            #    self.logger.warning("Unexpected error :\nWhile processing egg %s) symlink fails (%s, %s). Skipping.\nOriginal Exception:\n%s", project_name, package_location, link_location, sys.exc_info()[0])
                         else:
                             self.logger.info(
-                                "(While processing egg %s) Link already exists (%s -> %s).  Skipping."
-                                % (project_name, package_location, link_location)
+                                "(While processing egg %s) Link already exists (%s -> %s).  Skipping.",
+                                project_name,
+                                package_location,
+                                link_location,
                             )
                             continue
 
@@ -219,15 +232,15 @@ class Recipe(object):
                     link_name = package[1]
                     package_dir = package[0]
                 else:
-                    self.logger.warn(
-                        "Warning: Invalid package: %s %s" % (self.name, package)
+                    self.logger.warning(
+                        "Warning: Invalid package: %s %s", self.name, package
                     )
                     continue
 
                 link_dir = os.path.join(location, link_name)
                 self._add_bacon(package_dir, link_dir)
 
-        except:
+        except Exception:
             if os.path.exists(location):
                 rmtree(location)
             raise
@@ -237,21 +250,23 @@ class Recipe(object):
     update = install
 
     def _add_bacon(self, package_dir, target_dir):
-        """ Link packages from package_dir into target_dir.  Recurse a level if target_dir/(package)
-            already exists.
+        """Link packages from package_dir into target_dir.  Recurse a level if target_dir/(package)
+        already exists.
         """
         if os.path.exists(package_dir):
             if islink(target_dir):
-                self.logger.warn(
-                    "Warning: (While processing package directory %s) Link already exists at %s.  Skipping."
-                    % (package_dir, target_dir)
+                self.logger.warning(
+                    "Warning: (While processing package directory %s) Link already exists at %s.  Skipping.",
+                    package_dir,
+                    target_dir,
                 )
                 return
             elif not os.path.exists(target_dir):
                 if not makedirs(target_dir):
-                    self.logger.warn(
-                        "Warning: (While processing package directory %s) Link already exists at %s.  Skipping."
-                        % (package_dir, target_dir)
+                    self.logger.warning(
+                        "Warning: (While processing package directory %s) Link already exists at %s.  Skipping.",
+                        package_dir,
+                        target_dir,
                     )
                     return
             for package_name in [
@@ -263,17 +278,17 @@ class Recipe(object):
                     continue
                 link_location = os.path.join(target_dir, package_name)
                 if islink(link_location):
-                    self.logger.warn(
-                        "Warning: (While processing package %s) Link already exists.  Skipping."
-                        % package_location
+                    self.logger.warning(
+                        "Warning: (While processing package %s) Link already exists.  Skipping.",
+                        package_location,
                     )
                 elif os.path.isdir(link_location):
                     self._add_bacon(package_location, link_location)
                 else:
                     symlink(package_location, link_location)
         else:
-            self.logger.warn(
-                "Warning: Product directory %s not found.  Skipping." % package_dir
+            self.logger.warning(
+                "Warning: Product directory %s not found.  Skipping.", package_dir
             )
 
 

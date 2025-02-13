@@ -1,17 +1,18 @@
-# -*- coding: utf-8 -*-
 """
 This module contains the tool of collective.recipe.omelette
 """
+
+from setuptools import find_packages
+from setuptools import setup
+
 import os
-import sys
-from setuptools import setup, find_packages
 
 
 def read(*rnames):
     return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
 
 
-version = "1.1.2.dev0"
+version = "2.0.0.dev0"
 
 long_description = (
     "Detailed Documentation\n"
@@ -28,10 +29,7 @@ entry_points = {
 }
 
 install_requires = ["setuptools", "zc.buildout", "zc.recipe.egg"]
-tests_require = ["zope.testing", "zc.buildout[test]", "zc.recipe.egg", "pytest"]
-
-if sys.platform[:3].lower() == "win":
-    install_requires += ["ntfsutils;python_version<'3.0'"]
+tests_require = ["zope.testing", "zc.buildout[test]", "zc.recipe.egg"]
 
 setup(
     name="collective.recipe.omelette",
@@ -45,23 +43,28 @@ setup(
         "Topic :: Software Development :: Build Tools",
         "Topic :: Software Development :: Libraries :: Python Modules",
         "License :: OSI Approved :: GNU General Public License (GPL)",
-        "Programming Language :: Python :: 2.7",
-        "Programming Language :: Python :: 3.6",
-        "Programming Language :: Python :: 3.7",
-        "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
+        "Programming Language :: Python :: 3.13",
     ],
     keywords="buildout eggs namespace",
     author="David Glick, Groundwire",
     author_email="davidglick@groundwire.org",
     url="https://github.com/collective/collective.recipe.omelette",
     license="GPL",
-    packages=find_packages(exclude=["ez_setup"]),
+    packages=find_packages(),
     namespace_packages=["collective", "collective.recipe"],
     include_package_data=True,
     zip_safe=False,
     install_requires=install_requires,
-    extras_require=dict(tests=tests_require),
+    python_requires=">=3.9",
+    extras_require=dict(
+        test=tests_require,
+        # Originally we only had 'tests' as entrypoint,
+        # but we prefer 'test'.
+        tests=tests_require,
+    ),
     entry_points=entry_points,
 )
