@@ -28,18 +28,12 @@ import zc.recipe.egg
 
 
 WIN32 = sys.platform[:3].lower() == "win"
-NAMESPACE_STANZA = """# See http://peak.telecommunity.com/DevCenter/setuptools#namespace-packages
-try:
-    __import__('pkg_resources').declare_namespace(__name__)
-except ImportError:
-    from pkgutil import extend_path
-    __path__ = extend_path(__path__, __name__)
-"""
 
 
-def makedirs(target, is_namespace=False):
-    """Similar to os.makedirs, but adds __init__.py files as it goes.  Returns a boolean
-    indicating success.
+def makedirs(target):
+    """Similar to os.makedirs, but stops when it encounters a link.
+
+    Returns a boolean indicating success or failure.
     """
     drive, path = os.path.splitdrive(target)
     parts = path.split(os.path.sep)
@@ -50,14 +44,6 @@ def makedirs(target, is_namespace=False):
             return False
         if not os.path.exists(current):
             os.mkdir(current)
-            init_filename = os.path.join(current, "__init__.py")
-            if not os.path.exists(init_filename):
-                init_file = open(init_filename, "w")
-                if is_namespace or part == "Products":
-                    init_file.write(NAMESPACE_STANZA)
-                else:
-                    init_file.write("# mushroom")
-                init_file.close()
     return True
 
 
@@ -82,10 +68,7 @@ class Recipe:
             develop_eggs = [dev_egg[:-9] for dev_egg in develop_eggs]
         ignores = options.get("ignores", "").split()
         self.ignored_eggs = develop_eggs + ignores
-
-        products = options.get("products", "").split()
-        self.packages = [(p, "Products") for p in products]
-        self.packages += [
+        self.packages = [
             line.split()
             for line in options.get("packages", "").splitlines()
             if line.strip()
@@ -102,6 +85,11 @@ class Recipe:
                 ns = namespaces
                 for part in line.split("."):
                     ns = ns.setdefault(part, {})
+            if "." in project_name and not namespaces:
+                ns = namespaces
+                for part in project_name.split(".")[:-1]:
+                    ns = ns.setdefault(part, {})
+
             top_level = sorted(list(dist._get_metadata("top_level.txt")))
             # native_libs = list(dist._get_metadata('native_libs.txt'))
 
@@ -110,13 +98,18 @@ class Recipe:
                     ns_parts = ns_base + (k,)
                     link_dir = os.path.join(location, *ns_parts)
                     if not os.path.exists(link_dir):
-                        if not makedirs(link_dir, is_namespace=True):
+                        if not makedirs(link_dir):
                             self.logger.warning(
                                 "Warning: (While processing egg %s) Could not create namespace directory (%s).  Skipping.",
                                 project_name,
                                 link_dir,
                             )
                             continue
+                    if islink(link_dir):
+                        # For example, if you have packages one.two and one.three,
+                        # here you may already have a link to
+                        # .../lib/python3.12/site-packages/one/
+                        return
                     if len(v) > 0:
                         create_namespaces(v, ns_parts)
                     egg_ns_dir = os.path.join(dist.location, *ns_parts)
@@ -208,7 +201,7 @@ class Recipe:
 
         for package in self.packages:
             if len(package) == 1:
-                link_name = "Products/"
+                link_name = "./"
                 package_dir = package[0]
             elif len(package) == 2:
                 link_name = package[1]

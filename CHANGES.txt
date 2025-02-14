@@ -1,7 +1,24 @@
 2.0.0 (unreleased)
 ==================
 
+Breaking changes:
+
+- No longer generate ``__init__.py`` files with namespace stanza in ``parts/omelette``.
+  I think this was originally done to be able to go to ``parts/omelette``, start a standard Python, and be able to import everything.
+  With current Python versions the ``__init__.py`` files are not needed for a directory to be importable.
+  [maurits]
+
+- Remove ``products`` recipe option and special handling of ``Products`` namespace.
+  Zope 4 and higher no longer have the concept of a products directory.
+  You can still use ``packages = path/to/products_dir Products`` if you need something similar.
+  [maurits]
+
 - Require at least Python 3.9.
+  [maurits]
+
+Bug fixes:
+
+- Fix handling checkouts of native namespace packages.
   [maurits]
 
 

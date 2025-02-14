@@ -12,8 +12,9 @@ Install a fancy omelette with an egg, some packages, and a product::
     ... [omelette]
     ... recipe = collective.recipe.omelette
     ... eggs = egg.with.name.different.from.contents
-    ... packages = %(test_dir)s/package .
-    ... products = %(test_dir)s/Products
+    ... packages =
+    ...     %(test_dir)s/Products Products
+    ...     %(test_dir)s/package .
     ... """ % globals())
     >>> run(buildout + ' -v')
     Installing...
@@ -40,7 +41,6 @@ Now we have everything linked together in one place, pointing at the real locati
     >>> ls('parts/omelette/Products')
     d  Product1
     d  Product2
-    -  __init__.py
     >>> ls('parts/omelette/Products/Product1')
     -  __init__.py
     -  in_Product1.txt
@@ -57,7 +57,6 @@ Add a new product and re-run buildout to make sure it updates::
     d  Product1
     d  Product2
     d  Product3
-    -  __init__.py
 
 Make sure we didn't clobber stuff that was linked from outside the omelette directory when we
 reinstalled (we needed to take extra care that this didn't happen when using junction on Windows!)::
@@ -78,8 +77,9 @@ stuff accidentally::
     ... [frittata]
     ... recipe = collective.recipe.omelette
     ... eggs = egg.with.name.different.from.contents
-    ... packages = %(test_dir)s/package .
-    ... products = %(test_dir)s/Products
+    ... packages =
+    ...     %(test_dir)s/Products Products
+    ...     %(test_dir)s/package .
     ... """ % globals())
     >>> 'frittata: Warning:' in system(buildout + ' -q')
     True
