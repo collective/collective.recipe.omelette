@@ -2,7 +2,6 @@
 This module contains the tool of collective.recipe.omelette
 """
 
-from setuptools import find_packages
 from setuptools import setup
 
 import os
@@ -28,7 +27,7 @@ entry_points = {
     "zc.buildout.uninstall": ["default = %s" % uninstall_entry_point],
 }
 
-install_requires = ["setuptools", "zc.buildout", "zc.recipe.egg"]
+install_requires = ["zc.buildout", "zc.recipe.egg"]
 tests_require = ["zope.testing", "zc.buildout[test]", "zc.recipe.egg"]
 
 setup(
@@ -43,7 +42,6 @@ setup(
         "Topic :: Software Development :: Build Tools",
         "Topic :: Software Development :: Libraries :: Python Modules",
         "License :: OSI Approved :: GNU General Public License (GPL)",
-        "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
         "Programming Language :: Python :: 3.12",
@@ -54,13 +52,10 @@ setup(
     author_email="davidglick@groundwire.org",
     url="https://github.com/collective/collective.recipe.omelette",
     license="GPL",
-    packages=find_packages("src"),
-    package_dir={"": "src"},
-    namespace_packages=["collective", "collective.recipe"],
     include_package_data=True,
     zip_safe=False,
     install_requires=install_requires,
-    python_requires=">=3.9",
+    python_requires=">=3.10",
     extras_require=dict(
         test=tests_require,
         # Originally we only had 'tests' as entrypoint,
