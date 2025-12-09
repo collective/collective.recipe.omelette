@@ -17,7 +17,9 @@ import zc.buildout.tests
 
 
 optionflags = (
-    doctest.ELLIPSIS | doctest.NORMALIZE_WHITESPACE | doctest.REPORT_ONLY_FIRST_FAILURE
+    doctest.ELLIPSIS
+    | doctest.NORMALIZE_WHITESPACE
+    # | doctest.REPORT_ONLY_FIRST_FAILURE
 )
 
 test_dir = os.path.abspath(os.path.dirname(__file__))
@@ -69,6 +71,18 @@ def test_suite():
                         # don't count subversion dirs in ls() output
                         (
                             re.compile(r"^\s*?d\s+.svn\s*?^", re.MULTILINE | re.DOTALL),
+                            "",
+                        ),
+                        (
+                            re.compile(
+                                r"[^\n]*UserWarning: pkg_resources is deprecated as an API[^\n]*"
+                            ),
+                            "",
+                        ),
+                        (
+                            re.compile(
+                                r"[^\n]*from pkg_resources import PkgResourcesDeprecationWarning[^\n]*"
+                            ),
                             "",
                         ),
                     ]
