@@ -68,6 +68,20 @@ class Recipe:
             develop_eggs = [dev_egg[:-9] for dev_egg in develop_eggs]
         ignores = options.get("ignores", "").split()
         self.ignored_eggs = develop_eggs + ignores
+        # In the tests we strangely have multiple versions of our own egg in the
+        # working set.
+        # 1. We have a dist with project name collective.recipe.omelette
+        #    and location collective.recipe.omelette/src
+        #   (so the src dir in the git repo).
+        # 2. We have a dist with project name collective-recipe-omelette
+        #    and location
+        #    collective.recipe.omelette/.tox/test/lib/python3.13/site-packages
+        # The first location has a collective directory in it, the second one not.
+        # This causes a warning, which makes the tests fail:
+        #   omelette: Warning: (While processing egg collective-recipe-omelette)
+        #   Package 'collective' not found.  Skipping.
+        # To avoid this, we ignore collective-recipe-omelette here.
+        self.ignored_eggs += ["collective-recipe-omelette"]
         self.packages = [
             line.split()
             for line in options.get("packages", "").splitlines()
@@ -81,11 +95,14 @@ class Recipe:
             if project_name in self.ignored_eggs:
                 continue
             namespaces = {}
+            # Only pkg_resources-style namespace packages have a
+            # namespace_packages.txt file.  I suppose pkgutil-style too.
             for line in dist._get_metadata("namespace_packages.txt"):
                 ns = namespaces
                 for part in line.split("."):
                     ns = ns.setdefault(part, {})
             if "." in project_name and not namespaces:
+                # This is for implicit/native namespaces.
                 ns = namespaces
                 for part in project_name.split(".")[:-1]:
                     ns = ns.setdefault(part, {})
