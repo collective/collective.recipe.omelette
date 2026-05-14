@@ -1,3 +1,13 @@
+Changelog
+=========
+
+.. You should *NOT* be adding new change log entries to this file.
+   You should create a file in the news directory instead.
+   For helpful instructions, please see:
+   https://github.com/plone/plone.releaser/blob/master/ADD-A-NEWS-ITEM.rst
+
+.. towncrier release notes start
+
 3.0.0a1 (2025-12-09)
 --------------------
 
@@ -6,3 +16,215 @@ Breaking changes:
 
 - Replace ``pkg_resources`` namespace with PEP 420 native namespace.
   Support only Plone 6.2 and Python 3.10+. (#3928)
+
+
+2.0.0 (2025-02-14)
+==================
+
+Breaking changes:
+
+- No longer generate ``__init__.py`` files with namespace stanza in ``parts/omelette``.
+  I think this was originally done to be able to go to ``parts/omelette``, start a standard Python, and be able to import everything.
+  With current Python versions the ``__init__.py`` files are not needed for a directory to be importable.
+  [maurits]
+
+- Remove ``products`` recipe option and special handling of ``Products`` namespace.
+  Zope 4 and higher no longer have the concept of a products directory.
+  You can still use ``packages = path/to/products_dir Products`` if you need something similar.
+  [maurits]
+
+- Require at least Python 3.9.
+  [maurits]
+
+Bug fixes:
+
+- Fix handling checkouts of native namespace packages.
+  [maurits]
+
+
+1.1.1 (2025-02-12)
+==================
+
+- Remove setuptools fossils.
+  [maurits]
+
+
+1.1.0 (2021-12-01)
+==================
+
+- Fix 2to3 old setuptools hook [goschtl]
+- mordernize to python3 code [goschtl]
+- update to new zope.testing [goschtl]
+- use pytest and tox [goschtl]
+- Note: tested on Python 2.7 and 3.6-3.10.
+
+1.0.0 (2020-08-03)
+==================
+
+- Fix to run under Windows with Python 3.
+  [nilshofer, jensens]
+
+0.16 (2013-02-18)
+=================
+
+- Fix packaging error.
+  [davisagli]
+
+- Fix tests to work with buildout 2.
+  [davisagli]
+
+0.15 (2012-05-12)
+=================
+
+- Integration with Travis CI for running tests and pep8/pyflakes.
+  [hvelarde]
+
+- PEP 8/Pyflakes.
+  [hvelarde]
+
+- Optimized unlinking of junctioned dirs on Windows.
+  [lck]
+
+0.14 (2012-04-30)
+=================
+
+- Change the approach to building the omelette using NTFS junctions
+  on Windows. This is now done via the ``ntfsutils`` package, rather
+  than relying on junction.exe.
+  [lck]
+
+0.13 (2012-04-14)
+=================
+
+- Added forward-compatibility with Python 3.
+  [mitchell]
+
+0.12 (2011-09-08)
+=================
+
+- Replaced os.popen with subprocess equivalent
+  [tom_gross]
+
+- Quote path on windows to handle paths with spaces correctly
+  [tom_gross]
+
+0.11 (2011-07-18)
+=================
+
+- Sort top_level metadata to avoid error building omelette if they are out of
+  order.  Fixes https://bugs.launchpad.net/collective.buildout/+bug/553005.
+  Thanks to Leonardo Rochael Almeida.
+  [davisagli]
+
+0.10 (2010-11-22)
+=================
+
+- Provide an update function (equivalent to install) to avoid spurious "recipe
+  "doesn't define an update method" warning.
+  [davisagli]
+
+- Print a warning rather than aborting the buildout if junction.exe is missing
+  on Windows.
+  [davisagli]
+
+- Made the tests compatible with a zc.buildout installed with Distribute
+  rather than Setuptools.
+  [pumazi]
+
+- Handle OSErrors on symlink and warn the user. MacOSX can raise OSError due
+  to an existing file here even if os.path.exists returns False.
+  [MatthewWilkes]
+
+- Include modules from namespace packages in the omelette. (Namespace packages
+  cannot define anything in __init__.py, but they can contain modules.)
+  [hathawsh]
+
+- Made the tests compatible with virtualenv.
+  [hathawsh]
+
+0.9 (2009-04-11)
+================
+
+- Adjusted log-levels to be slightly less verbose for non-critical
+  errors. [malthe]
+
+0.8 (2009-01-14)
+================
+
+- Fixed 'OSError [Errno 20] Not a directory' on zipped eggs, for
+  example when adding the z3c.sqlalchemy==1.3.5 egg.
+  [maurits]
+
+0.7 (2008-09-10)
+================
+
+- Actually add namespace declarations to generated __init__.py files.
+  [davisagli]
+
+- Use egg-info instead of guessing paths from package name. This also fixes
+  eggs which have a name different from the contents.
+  [fschulze]
+
+0.6 (2008-08-11)
+================
+
+- Documentation changes only.
+  [davisagli]
+
+0.5 (2008-05-29)
+================
+
+- Added uninstall entry point so that the omelette can be uninstalled on
+  Windows without clobbering things outside the omelette path.
+  [optilude]
+
+- Support Windows using NTFS junctions (see
+  http://www.microsoft.com/technet/sysinternals/FileAndDisk/Junction.mspx)
+  [optilude]
+
+- Ignore zipped eggs and fakezope2eggs-created links.
+  [davisagli]
+
+- Added 'packages' option to allow merging non-eggified Python packages to
+  any directory in the omelette (so that, for instance, the contents of
+  Zope's lib/python can be merged flexibly).
+  [davisagli]
+
+0.4 (2008-04-07)
+================
+
+- Added option to include Products directories.
+  [davisagli]
+
+- Fixed ignore-develop option.
+  [davisagli]
+
+0.3 (2008-03-30)
+================
+
+- Fixed test infrastructure.
+  [davisagli]
+
+- Added option to ignore develop eggs
+  [claytron]
+
+- Added option to ignore eggs
+  [claytron]
+
+- Added option to override the default omelette location.
+  [davisagli]
+
+0.2 (2008-03-16)
+================
+
+- Fixed so created directories are not normalized to lowercase.
+  [davisagli]
+
+0.1 (2008-03-10)
+================
+
+- Initial basic implementation.
+  [davisagli]
+
+- Created recipe with ZopeSkel.
+  [davisagli]
