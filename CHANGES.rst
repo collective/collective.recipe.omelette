@@ -5,6 +5,16 @@
 
 .. towncrier release notes start
 
+3.0.0 (2026-05-14)
+------------------
+
+Documentation:
+
+
+- Merge ``CHANGES.txt`` into ``CHANGES.rst``, and use that for the long description.
+  [maurits]
+
+
 3.0.0a1 (2025-12-09)
 --------------------
 

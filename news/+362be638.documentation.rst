@@ -1,2 +1,0 @@
-Merge ``CHANGES.txt`` into ``CHANGES.rst``, and use that for the long description.
-[maurits]
