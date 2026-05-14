@@ -1,6 +1,3 @@
-Changelog
-=========
-
 .. You should *NOT* be adding new change log entries to this file.
    You should create a file in the news directory instead.
    For helpful instructions, please see:
@@ -19,7 +16,7 @@ Breaking changes:
 
 
 2.0.0 (2025-02-14)
-==================
+------------------
 
 Breaking changes:
 
@@ -43,14 +40,14 @@ Bug fixes:
 
 
 1.1.1 (2025-02-12)
-==================
+------------------
 
 - Remove setuptools fossils.
   [maurits]
 
 
 1.1.0 (2021-12-01)
-==================
+------------------
 
 - Fix 2to3 old setuptools hook [goschtl]
 - mordernize to python3 code [goschtl]
@@ -59,13 +56,13 @@ Bug fixes:
 - Note: tested on Python 2.7 and 3.6-3.10.
 
 1.0.0 (2020-08-03)
-==================
+------------------
 
 - Fix to run under Windows with Python 3.
   [nilshofer, jensens]
 
 0.16 (2013-02-18)
-=================
+-----------------
 
 - Fix packaging error.
   [davisagli]
@@ -74,7 +71,7 @@ Bug fixes:
   [davisagli]
 
 0.15 (2012-05-12)
-=================
+-----------------
 
 - Integration with Travis CI for running tests and pep8/pyflakes.
   [hvelarde]
@@ -86,7 +83,7 @@ Bug fixes:
   [lck]
 
 0.14 (2012-04-30)
-=================
+-----------------
 
 - Change the approach to building the omelette using NTFS junctions
   on Windows. This is now done via the ``ntfsutils`` package, rather
@@ -94,13 +91,13 @@ Bug fixes:
   [lck]
 
 0.13 (2012-04-14)
-=================
+-----------------
 
 - Added forward-compatibility with Python 3.
   [mitchell]
 
 0.12 (2011-09-08)
-=================
+-----------------
 
 - Replaced os.popen with subprocess equivalent
   [tom_gross]
@@ -109,7 +106,7 @@ Bug fixes:
   [tom_gross]
 
 0.11 (2011-07-18)
-=================
+-----------------
 
 - Sort top_level metadata to avoid error building omelette if they are out of
   order.  Fixes https://bugs.launchpad.net/collective.buildout/+bug/553005.
@@ -117,7 +114,7 @@ Bug fixes:
   [davisagli]
 
 0.10 (2010-11-22)
-=================
+-----------------
 
 - Provide an update function (equivalent to install) to avoid spurious "recipe
   "doesn't define an update method" warning.
@@ -143,20 +140,20 @@ Bug fixes:
   [hathawsh]
 
 0.9 (2009-04-11)
-================
+----------------
 
 - Adjusted log-levels to be slightly less verbose for non-critical
   errors. [malthe]
 
 0.8 (2009-01-14)
-================
+----------------
 
 - Fixed 'OSError [Errno 20] Not a directory' on zipped eggs, for
   example when adding the z3c.sqlalchemy==1.3.5 egg.
   [maurits]
 
 0.7 (2008-09-10)
-================
+----------------
 
 - Actually add namespace declarations to generated __init__.py files.
   [davisagli]
@@ -166,13 +163,13 @@ Bug fixes:
   [fschulze]
 
 0.6 (2008-08-11)
-================
+----------------
 
 - Documentation changes only.
   [davisagli]
 
 0.5 (2008-05-29)
-================
+----------------
 
 - Added uninstall entry point so that the omelette can be uninstalled on
   Windows without clobbering things outside the omelette path.
@@ -191,7 +188,7 @@ Bug fixes:
   [davisagli]
 
 0.4 (2008-04-07)
-================
+----------------
 
 - Added option to include Products directories.
   [davisagli]
@@ -200,7 +197,7 @@ Bug fixes:
   [davisagli]
 
 0.3 (2008-03-30)
-================
+----------------
 
 - Fixed test infrastructure.
   [davisagli]
@@ -215,13 +212,13 @@ Bug fixes:
   [davisagli]
 
 0.2 (2008-03-16)
-================
+----------------
 
 - Fixed so created directories are not normalized to lowercase.
   [davisagli]
 
 0.1 (2008-03-10)
-================
+----------------
 
 - Initial basic implementation.
   [davisagli]

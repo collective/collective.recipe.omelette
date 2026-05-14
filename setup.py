@@ -15,9 +15,9 @@ version = "3.0.0.dev0"
 
 long_description = (
     "Detailed Documentation\n"
-    "**********************\n" + "\n" + read("README.rst") + "\n" + "Change history\n"
-    "**************\n" + "\n" + read("CHANGES.rst") + "\n" + "Contributors\n"
-    "************\n" + "\n" + read("CONTRIBUTORS.txt")
+    "======================\n" + "\n" + read("README.rst") + "\n" + "Change history\n"
+    "==============\n" + "\n" + read("CHANGES.rst") + "\n" + "Contributors\n"
+    "============\n" + "\n" + read("CONTRIBUTORS.txt")
 )
 entry_point = "collective.recipe.omelette:Recipe"
 uninstall_entry_point = "collective.recipe.omelette:uninstall"

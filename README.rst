@@ -1,5 +1,5 @@
 Introduction
-============
+------------
 
 Namespace packages offer the huge benefit of being able to distribute parts of a large
 system in small, self-contained pieces.  However, they can be somewhat clunky to navigate,
@@ -38,7 +38,7 @@ like when running under mod_wsgi or PyDev.
 
 
 Typical usage with Zope and Plone
-=================================
+---------------------------------
 
 For a typical Plone buildout, with a part named ``instance`` that uses the
 ``plone.recipe.zope2instance`` recipe, the following additions to ``buildout.cfg`` will
@@ -57,7 +57,7 @@ result in an omelette including all eggs used by the Zope instance::
 
 
 Supported options
-=================
+-----------------
 
 The recipe supports the following options:
 
@@ -82,7 +82,7 @@ packages
 
 
 Using omelette with zipped eggs
-===============================
+-------------------------------
 
 Omelette doesn't currently know how to deal with eggs that are zipped.  If it encounters one, you'll
 see a warning something like the following::
@@ -95,7 +95,7 @@ You can tell buildout to unzip all eggs by setting the unzip = true flag in the 
 
 
 Running the tests
-=================
+-----------------
 
 Just grab the recipe from git and run::
 
@@ -108,7 +108,7 @@ part and includes collective.recipe.omelette as a development egg.
 
 
 Reporting bugs or asking questions
-==================================
+----------------------------------
 
 There is a bugtracker on gitHub:
 https://github.com/collective/collective.recipe.omelette/issues
