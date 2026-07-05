@@ -15,7 +15,6 @@ import unittest
 import zc.buildout.testing
 import zc.buildout.tests
 
-
 optionflags = (
     doctest.ELLIPSIS
     | doctest.NORMALIZE_WHITESPACE

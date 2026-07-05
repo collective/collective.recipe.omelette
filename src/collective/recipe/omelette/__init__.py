@@ -26,7 +26,6 @@ import os
 import sys
 import zc.recipe.egg
 
-
 WIN32 = sys.platform[:3].lower() == "win"
 
 
