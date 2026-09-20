@@ -1,3 +1,6 @@
+Detailed documentation
+======================
+
 Introduction
 ------------
 

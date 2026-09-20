@@ -1,3 +1,6 @@
+Contributors
+============
+
 - David Glick [davisagli]
 - Clayton Parker [claytron]
 - Martin Aspeli [optilude]
