@@ -4,7 +4,66 @@
 [build-system]
 requires = ["setuptools>=68.2,<83", "wheel"]
 
+# START-MARKER-MANUAL-CONFIG
+# Anything from here until END-MARKER-MANUAL-CONFIG
+# will be kept by plone.meta
 
+[project]
+name = "collective.recipe.omelette"
+version = "3.0.1.dev0"
+description = "Creates a unified directory structure of installed packages, symlinking to the actual contents, in order to ease navigation."
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Framework :: Buildout",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Software Development :: Build Tools",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+license = "GPL-2.0-only"
+dynamic = ["readme"]
+requires-python = ">=3.10"
+authors = [
+    {name = "David Glick, Groundwire",email = "davidglick@groundwire.org"},
+]
+dependencies = [
+    "zc.buildout",
+    "zc.recipe.egg",
+]
+keywords = ["buildout", "eggs", "namespace"]
+
+[project.entry-points."zc.buildout"]
+default = "collective.recipe.omelette:Recipe"
+
+[project.entry-points."zc.buildout.uninstall"]
+default = "collective.recipe.omelette:uninstall"
+
+[project.optional-dependencies]
+test = [
+    "setuptools",
+    "zc.buildout[test]",
+    "zc.recipe.egg",
+    "zope.testing",
+]
+tests = [
+    "setuptools",
+    "zc.buildout[test]",
+    "zc.recipe.egg",
+    "zope.testing",
+]
+
+[project.urls]
+Source = "https://github.com/collective/collective.recipe.omelette"
+Issues = "https://github.com/collective/collective.recipe.omelette/issues"
+Changelog = "https://github.com/collective/collective.recipe.omelette/blob/master/CHANGES.rst"
+
+[tool.setuptools.dynamic]
+readme = {file = ["README.rst", "CHANGES.rst", "CONTRIBUTORS.rst"]}
+# END-MARKER-MANUAL-CONFIG
 
 [tool.towncrier]
 directory = "news/"
